@@ -49,13 +49,12 @@ public class C206_CaseStudy {
 
 		if (start == true) {
 			int option = 0;
-			role = getRole(userList, user_ID, password);
-			menu(role);
 			while (option != OPTION_QUIT) {
+				role = getRole(userList, user_ID, password);
+				menu(role);
 				option = Helper.readInt("\nEnter option > ");
 				if (option == 1) {
 					// AUTO-MENU
-					menu(role);
 				} else if (option == 2) {
 					displayCCA(ccaList);
 				} else if (option == 3) {
