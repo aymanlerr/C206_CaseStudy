@@ -94,6 +94,21 @@ public class C206_CaseStudy {
 						System.out.println("Invalid option");
 						Helper.line(100, "-");
 					}
+				} else if (option == 8) {
+					Helper.line(100, "-");
+					System.out.println(String.format("%50s", "Login"));
+					Helper.line(100, "-");
+					user_ID = 0;
+					password = "";
+					role = "";
+					start = false;
+					while (start == false) {
+						user_ID = Helper.readInt("Enter your user ID > ");
+						password = Helper.readString("Enter your password > ");
+						if (login(userList, user_ID, password) == true) {
+							start = true;
+						}
+					}
 				} else if (option == OPTION_QUIT) {
 					System.out.println("See you again!");
 				} else {
