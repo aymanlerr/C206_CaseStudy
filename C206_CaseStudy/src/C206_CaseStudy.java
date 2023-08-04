@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class C206_CaseStudy {
-	
+
 	private static final int OPTION_QUIT = 99;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
 		// setup ArrayList of users
 		ArrayList<User> userList = new ArrayList<>();
 		userList.add(new User(1, "Aiman", "1", "student"));
@@ -46,20 +46,29 @@ public class C206_CaseStudy {
 				start = true;
 			}
 		}
-		
+
 		if (start == true) {
 			int option = 0;
+			role = getRole(userList, user_ID, password);
+			menu(role);
 			while (option != OPTION_QUIT) {
-				role = getRole(userList, user_ID, password);
-				menu(role);
 				option = Helper.readInt("\nEnter option > ");
 				if (option == 1) {
 					// AUTO-MENU
+					menu(role);
+				} else if (option == 2) {
+					displayCCA(ccaList);
+				} else if (option == OPTION_QUIT) {
+					System.out.println("See you again!");
+				} else {
+					Helper.line(100, "-");
+					System.out.println("Invalid option");
+					Helper.line(100, "-");
 				}
 			}
 		}
 	}
-	
+
 	// LOGIN
 	private static boolean login(ArrayList<User> userList, int user_ID, String password) {
 		// Check if user_id and password in list
@@ -75,7 +84,7 @@ public class C206_CaseStudy {
 		Helper.line(100, "-");
 		return false;
 	}
-	
+
 	// MENU
 	private static void menu(String role) {
 		Helper.line(100, "-");
@@ -116,7 +125,7 @@ public class C206_CaseStudy {
 		}
 		System.out.println(output);
 	}
-	
+
 	// GET USER ROLE
 	private static String getRole(ArrayList<User> userList, int user_ID, String password) {
 		String role = "";
@@ -126,6 +135,20 @@ public class C206_CaseStudy {
 			}
 		}
 		return role;
+	}
+
+	// DISPLAY CCA DETAILS
+	private static void displayCCA(ArrayList<CCA> ccaList) {
+		Helper.line(100, "-");
+		System.out.println(String.format("%50s", "CCA"));
+		Helper.line(100, "-");
+		System.out.println(String.format("%-10s %-15s %-50s %-10s", "CCA ID", "CCA NAME", "DESCRIPTION", "TIMESLOT"));
+		Helper.line(100, "-");
+		String output = "";
+		for (int i = 0; i < ccaList.size(); i++) {
+			output += ccaList.get(i).display();
+		}
+		System.out.println(output);
 	}
 
 }
