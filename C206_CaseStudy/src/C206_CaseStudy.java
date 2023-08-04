@@ -74,6 +74,16 @@ public class C206_CaseStudy {
 						System.out.println("Invalid option");
 						Helper.line(100, "-");
 					}
+				} else if (option == 6) {
+					if (role == "teacher" || role == "advisor") {
+						displayAttendance(attendanceList, ccaList);
+					} else if (role == "admin") {
+						displayUsers(userList);
+					} else {
+						Helper.line(100, "-");
+						System.out.println("Invalid option");
+						Helper.line(100, "-");
+					}
 				} else if (option == OPTION_QUIT) {
 					System.out.println("See you again!");
 				} else {
@@ -138,6 +148,79 @@ public class C206_CaseStudy {
 			Helper.line(100, "-");
 			System.out.println("Error: Invalid role");
 			Helper.line(100, "-");
+		}
+		System.out.println(output);
+	}
+	
+	// DISPLAY ATTENDANCE
+	private static void displayAttendance(ArrayList<Attendance> attendanceList, ArrayList<CCA> ccaList) {
+		// CCA ATTENDANCE AVAILABLE
+		Helper.line(100, "-");
+		System.out.println(String.format("%50s", "CCA ATTENDANCE LIST"));
+		Helper.line(100, "-");
+		String output = "";
+
+		ArrayList<Integer> ccaIdList = new ArrayList<>();
+		for (int i = 0; i < ccaList.size(); i++) {
+			ccaIdList.add(ccaList.get(i).getCcaID());
+		}
+
+		ArrayList<Integer> currentCca = new ArrayList<>();
+		for (int i = 0; i < attendanceList.size(); i++) {
+			if (ccaIdList.contains(attendanceList.get(i).getCca_ID())) {
+				output += String.format("%d. %s\n", attendanceList.get(i).getCca_ID(),
+						attendanceList.get(i).getCca_name());
+				currentCca.add(attendanceList.get(i).getCca_ID());
+			}
+		}
+
+		if (currentCca.size() == 0) {
+			System.out.println("There is no CCA attendance to view");
+		} else {
+			System.out.println(output);
+			Helper.line(100, "-");
+			int ccaChoice = Helper.readInt("Enter CCA attendance to view > ");
+
+			if (!currentCca.contains(ccaChoice)) {
+				Helper.line(100, "-");
+				System.out.println("Invalid CCA ID");
+				Helper.line(100, "-");
+			} else {
+				String ccaName = "";
+				for (int i = 0; i < ccaList.size(); i++) {
+					if (ccaChoice == ccaList.get(i).getCcaID()) {
+						ccaName = ccaList.get(i).getCca_name();
+					}
+				}
+
+				Helper.line(100, "-");
+				System.out.println(String.format("%50s", ccaName + " Attendance"));
+				Helper.line(100, "-");
+				System.out.println(String.format("%-10s %-10s %-25s %-10s %-10s %-10s", "CCA ID", "CCA NAME",
+						"TIMESLOT", "USER ID", "USERNAME", "STATUS"));
+				Helper.line(100, "-");
+				output = "";
+				for (int i = 0; i < attendanceList.size(); i++) {
+					if (ccaChoice == attendanceList.get(i).getCca_ID()) {
+						output += attendanceList.get(i).display();
+					}
+				}
+				System.out.println(output);
+			}
+		}
+
+	}
+	
+	private static void displayUsers(ArrayList<User> userList) {
+		Helper.line(100, "-");
+		System.out.println(String.format("%50s", "Users"));
+		Helper.line(100, "-");
+		System.out.println(
+				String.format("%-10s %-10s %-10s %-10s %-10s", "USER ID", "USERNAME", "PASSWORD", "ROLE", "CCA ID"));
+		Helper.line(100, "-");
+		String output = "";
+		for (int i = 0; i < userList.size(); i++) {
+			output += userList.get(i).display();
 		}
 		System.out.println(output);
 	}
