@@ -369,115 +369,116 @@ public class C206_CaseStudy {
 	
 	private static void maintainAttendance(ArrayList<Attendance> attendanceList, ArrayList<CCA> ccaList,
 			ArrayList<User> userList) {
+		if (displayAttendance(attendanceList, ccaList) == true) {
+			Helper.line(100, "-");
+			System.out.println("1. Delete Attendance\n2. Set Attendance\n3. Back");
+			Helper.line(100, "-");
+			int option = Helper.readInt("\nEnter your option > ");
+			int ccaID;
+			int userID;
+			// DELETE
+			if (option == 1) {
+				// DELETE APPLICATION
 
-		displayAttendance(attendanceList, ccaList);
-		Helper.line(100, "-");
-		System.out.println("1. Delete Attendance\n2. Set Attendance\n3. Back");
-		Helper.line(100, "-");
-		int option = Helper.readInt("\nEnter your option > ");
-		int ccaID;
-		int userID;
-		// DELETE
-		if (option == 1) {
-			// DELETE APPLICATION
+				ccaID = Helper.readInt("Enter application CCA ID > ");
+				userID = Helper.readInt("Enter application user ID > ");
 
-			ccaID = Helper.readInt("Enter application CCA ID > ");
-			userID = Helper.readInt("Enter application user ID > ");
+				// CHECK INPUT FIELDS
+				boolean checkCcaId = false;
+				boolean checkUserId = false;
 
-			// CHECK INPUT FIELDS
-			boolean checkCcaId = false;
-			boolean checkUserId = false;
-
-			for (int i = 0; i < attendanceList.size(); i++) {
-				if (ccaID == attendanceList.get(i).getCca_ID()) {
-					checkCcaId = true;
-				}
-				if (userID == attendanceList.get(i).getUser_ID()) {
-					checkUserId = true;
-				}
-			}
-
-			// DELETE IF ALL CHECK PASSED
-			if (checkCcaId == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid CCA ID");
-				Helper.line(100, "-");
-			} else if (checkUserId == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid User ID");
-				Helper.line(100, "-");
-			} else {
 				for (int i = 0; i < attendanceList.size(); i++) {
-					if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
-						attendanceList.remove(i);
-						Helper.line(100, "-");
-						System.out.println("Application succesfully deleted");
-						Helper.line(100, "-");
+					if (ccaID == attendanceList.get(i).getCca_ID()) {
+						checkCcaId = true;
+					}
+					if (userID == attendanceList.get(i).getUser_ID()) {
+						checkUserId = true;
 					}
 				}
-			}
-			// SET ATTENDANCE
-		} else if (option == 2) {
-			// APPROVE OR REJECT APPLICATION
-			ccaID = Helper.readInt("Enter attendance CCA ID > ");
-			userID = Helper.readInt("Enter attendance user ID > ");
-			int approve = Helper.readInt("Enter 0: Present, 1: Absent, 2: Late > ");
 
-			// CHECK INPUT FIELDS
-			boolean checkCcaId = false;
-			boolean checkUserId = false;
-
-			for (int i = 0; i < attendanceList.size(); i++) {
-				if (ccaID == attendanceList.get(i).getCca_ID()) {
-					checkCcaId = true;
-				}
-				if (userID == attendanceList.get(i).getUser_ID()) {
-					checkUserId = true;
-				}
-			}
-
-			String status = "Pending";
-			boolean checkApprove = true;
-			if (approve == 0) {
-				status = "Present";
-			} else if (approve == 1) {
-				status = "Absent";
-			} else if (approve == 2) {
-				status = "Late";
-			} else {
-				checkApprove = false;
-			}
-
-			// UPDATE APPLICATION STATUS IF CHECKING FIELDS PASS
-			if (checkCcaId == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid CCA ID");
-				Helper.line(100, "-");
-			} else if (checkUserId == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid User ID");
-				Helper.line(100, "-");
-			} else if (checkApprove == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid option");
-				Helper.line(100, "-");
-			} else {
-				for (int i = 0; i < attendanceList.size(); i++) {
-					if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
-						attendanceList.get(i).setStatus(status);
-						Helper.line(100, "-");
-						System.out.println("Attendance succesfully updated");
-						Helper.line(100, "-");
+				// DELETE IF ALL CHECK PASSED
+				if (checkCcaId == false) {
+					Helper.line(100, "-");
+					System.out.println("Invalid CCA ID");
+					Helper.line(100, "-");
+				} else if (checkUserId == false) {
+					Helper.line(100, "-");
+					System.out.println("Invalid User ID");
+					Helper.line(100, "-");
+				} else {
+					for (int i = 0; i < attendanceList.size(); i++) {
+						if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
+							attendanceList.remove(i);
+							Helper.line(100, "-");
+							System.out.println("Application succesfully deleted");
+							Helper.line(100, "-");
+						}
 					}
 				}
-			}
-		} else if (option == 3) {
+				// SET ATTENDANCE
+			} else if (option == 2) {
+				// APPROVE OR REJECT APPLICATION
+				ccaID = Helper.readInt("Enter attendance CCA ID > ");
+				userID = Helper.readInt("Enter attendance user ID > ");
+				int approve = Helper.readInt("Enter 0: Present, 1: Absent, 2: Late > ");
 
+				// CHECK INPUT FIELDS
+				boolean checkCcaId = false;
+				boolean checkUserId = false;
+
+				for (int i = 0; i < attendanceList.size(); i++) {
+					if (ccaID == attendanceList.get(i).getCca_ID()) {
+						checkCcaId = true;
+					}
+					if (userID == attendanceList.get(i).getUser_ID()) {
+						checkUserId = true;
+					}
+				}
+
+				String status = "Pending";
+				boolean checkApprove = true;
+				if (approve == 0) {
+					status = "Present";
+				} else if (approve == 1) {
+					status = "Absent";
+				} else if (approve == 2) {
+					status = "Late";
+				} else {
+					checkApprove = false;
+				}
+
+				// UPDATE APPLICATION STATUS IF CHECKING FIELDS PASS
+				if (checkCcaId == false) {
+					Helper.line(100, "-");
+					System.out.println("Invalid CCA ID");
+					Helper.line(100, "-");
+				} else if (checkUserId == false) {
+					Helper.line(100, "-");
+					System.out.println("Invalid User ID");
+					Helper.line(100, "-");
+				} else if (checkApprove == false) {
+					Helper.line(100, "-");
+					System.out.println("Invalid option");
+					Helper.line(100, "-");
+				} else {
+					for (int i = 0; i < attendanceList.size(); i++) {
+						if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
+							attendanceList.get(i).setStatus(status);
+							Helper.line(100, "-");
+							System.out.println("Attendance succesfully updated");
+							Helper.line(100, "-");
+						}
+					}
+				}
+			} else if (option == 3) {
+
+			}
 		}
+
 	}
 	
 	// DISPLAY ATTENDANCE
-	private static void displayAttendance(ArrayList<Attendance> attendanceList, ArrayList<CCA> ccaList) {
+	private static boolean displayAttendance(ArrayList<Attendance> attendanceList, ArrayList<CCA> ccaList) {
 		// CCA ATTENDANCE AVAILABLE
 		Helper.line(100, "-");
 		System.out.println(String.format("%50s", "CCA ATTENDANCE LIST"));
@@ -500,6 +501,7 @@ public class C206_CaseStudy {
 
 		if (currentCca.size() == 0) {
 			System.out.println("There is no CCA attendance to view");
+			return false;
 		} else {
 			System.out.println(output);
 			Helper.line(100, "-");
@@ -509,6 +511,7 @@ public class C206_CaseStudy {
 				Helper.line(100, "-");
 				System.out.println("Invalid CCA ID");
 				Helper.line(100, "-");
+				return false;
 			} else {
 				String ccaName = "";
 				for (int i = 0; i < ccaList.size(); i++) {
@@ -530,6 +533,7 @@ public class C206_CaseStudy {
 					}
 				}
 				System.out.println(output);
+				return true;
 			}
 		}
 
