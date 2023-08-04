@@ -27,6 +27,43 @@ public class C206_CaseStudy {
 		// setup ArrayList of CCA application
 		ArrayList<Application> applicationList = new ArrayList<>();
 
+		// ask user for login details
+		Boolean start = false;
+		int user_ID = 0;
+		String password = "";
+		String role = "";
+
+		Helper.line(100, "-");
+		System.out.println(String.format("%50s", "Login"));
+		Helper.line(100, "-");
+
+		while (start == false) {
+			user_ID = Helper.readInt("Enter your user ID > ");
+			password = Helper.readString("Enter your password > ");
+			if (login(userList, user_ID, password) == true) {
+				start = true;
+			}
+		}
+		
+		if (start == true) {
+			
+		}
+	}
+	
+	// LOGIN
+	private static boolean login(ArrayList<User> userList, int user_ID, String password) {
+		// Check if user_id and password in list
+		for (int i = 0; i < userList.size(); i++) {
+			if (userList.get(i).getUserID() == user_ID) {
+				if (userList.get(i).getPassword().equals(password)) {
+					return true;
+				}
+			}
+		}
+		Helper.line(100, "-");
+		System.out.println("Invalid User ID or Password");
+		Helper.line(100, "-");
+		return false;
 	}
 
 }
