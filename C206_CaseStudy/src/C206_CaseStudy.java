@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 public class C206_CaseStudy {
+	
+	private static final int OPTION_QUIT = 99;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -46,7 +48,15 @@ public class C206_CaseStudy {
 		}
 		
 		if (start == true) {
-			
+			int option = 0;
+			while (option != OPTION_QUIT) {
+				role = getRole(userList, user_ID, password);
+				menu(role);
+				option = Helper.readInt("\nEnter option > ");
+				if (option == 1) {
+					// AUTO-MENU
+				}
+			}
 		}
 	}
 	
@@ -64,6 +74,58 @@ public class C206_CaseStudy {
 		System.out.println("Invalid User ID or Password");
 		Helper.line(100, "-");
 		return false;
+	}
+	
+	// MENU
+	private static void menu(String role) {
+		Helper.line(100, "-");
+		System.out.println(String.format("%50s", "MENU"));
+		Helper.line(100, "-");
+		String output = "";
+		if (role.equalsIgnoreCase("student")) {
+			output += "1. Menu";
+			output += "\n2. View CCA";
+			output += "\n3. Register CCA";
+			output += "\n4. View application(s)";
+			output += "\n8. Sign out";
+			output += "\n99. Quit program";
+		} else if (role.equalsIgnoreCase("teacher") || role.equalsIgnoreCase("advisor")) {
+			output += "1. Menu";
+			output += "\n2. View CCA";
+			output += "\n3. Maintain CCA";
+			output += "\n4. View applications";
+			output += "\n5. Maintain application(s)";
+			output += "\n6. View CCA attendance";
+			output += "\n7. Maintain CCA attendance";
+			output += "\n8. Sign out";
+			output += "\n99. Quit program";
+		} else if (role.equalsIgnoreCase("admin")) {
+			output += "1. Menu";
+			output += "\n2. View CCA";
+			output += "\n3. Maintain CCA";
+			output += "\n4. View applications";
+			output += "\n5. Maintain application(s)";
+			output += "\n6. View all user accounts";
+			output += "\n7. Maintain user accounts";
+			output += "\n8. Sign out";
+			output += "\n99. Quit program";
+		} else {
+			Helper.line(100, "-");
+			System.out.println("Error: Invalid role");
+			Helper.line(100, "-");
+		}
+		System.out.println(output);
+	}
+	
+	// GET USER ROLE
+	private static String getRole(ArrayList<User> userList, int user_ID, String password) {
+		String role = "";
+		for (int i = 0; i < userList.size(); i++) {
+			if (userList.get(i).getUserID() == user_ID && userList.get(i).getPassword().equals(password)) {
+				role = userList.get(i).getRole();
+			}
+		}
+		return role;
 	}
 
 }
