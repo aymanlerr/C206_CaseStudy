@@ -186,69 +186,9 @@ public class C206_CaseStudy {
 		int option = Helper.readInt("\nEnter your option > ");
 
 		if (option == 1) {
-			int user_Id = Helper.readInt("Enter new User ID > ");
-			String username = Helper.readString("Enter new User name > ");
-			String password = Helper.readString("Enter new password > ");
-			String role = Helper.readString("Enter new role [student/teacher/advisor/admin] > ");
-
-			// CHECK IF NEW USER ID ALREADRY EXIST
-			boolean checkExistingUserId = checkExistingUserID(userList, user_Id);
-
-			// CHECK IF ROLE IS CORRECT
-			boolean checkRole = false;
-			if (role.equals("student") || role.equals("teacher") || role.equals("advisor") || role.equals("admin")) {
-				checkRole = true;
-			}
-
-			// ADD IF ALL CHECKS PASSED
-			if (checkExistingUserId == true) {
-				Helper.line(100, "-");
-				System.out.println("User ID already exist. Please use another ID.");
-				Helper.line(100, "-");
-			} else if (checkRole == false) {
-				Helper.line(100, "-");
-				System.out.println("Incorrect role.");
-				Helper.line(100, "-");
-			} else {
-				userList.add(new User(user_Id, username, password, role));
-				Helper.line(100, "-");
-				System.out.println("User successfully added");
-				Helper.line(100, "-");
-			}
+			addUser(userList);
 		} else if (option == 2) {
-			int user_Id = Helper.readInt("Enter User ID to delete > ");
-			String username = Helper.readString("Enter username to confirm > ");
-
-			// CHECK IF USER ID EXIST
-			boolean checkExistingUserId = checkExistingUserID(userList, user_Id);
-
-			// CHECK IF CCA NAME IS CORRECT
-			boolean checkExistingUsername = false;
-			for (int i = 0; i < userList.size(); i++) {
-				if (username.equalsIgnoreCase(userList.get(i).getName())) {
-					checkExistingUsername = true;
-				}
-			}
-
-			// DELETE CCA IF ALL CHECKS PASSED
-			if (checkExistingUserId == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid User ID");
-				Helper.line(100, "-");
-			} else if (checkExistingUsername == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid Username");
-				Helper.line(100, "-");
-			} else {
-				for (int i = 0; i < userList.size(); i++) {
-					if (user_Id == userList.get(i).getUserID() && username.equals(userList.get(i).getName())) {
-						userList.remove(i);
-						Helper.line(100, "-");
-						System.out.println("User successfully removed");
-						Helper.line(100, "-");
-					}
-				}
-			}
+			deleteUser(userList);
 
 		} else if (option == 3) {
 			int user_Id = Helper.readInt("Enter User ID to edit > ");
@@ -363,6 +303,74 @@ public class C206_CaseStudy {
 		} else {
 			Helper.line(100, "-");
 			System.out.println("Invalid option");
+			Helper.line(100, "-");
+		}
+	}
+
+	private static void deleteUser(ArrayList<User> userList) {
+		int user_Id = Helper.readInt("Enter User ID to delete > ");
+		String username = Helper.readString("Enter username to confirm > ");
+
+		// CHECK IF USER ID EXIST
+		boolean checkExistingUserId = checkExistingUserID(userList, user_Id);
+
+		// CHECK IF CCA NAME IS CORRECT
+		boolean checkExistingUsername = false;
+		for (int i = 0; i < userList.size(); i++) {
+			if (username.equalsIgnoreCase(userList.get(i).getName())) {
+				checkExistingUsername = true;
+			}
+		}
+
+		// DELETE CCA IF ALL CHECKS PASSED
+		if (checkExistingUserId == false) {
+			Helper.line(100, "-");
+			System.out.println("Invalid User ID");
+			Helper.line(100, "-");
+		} else if (checkExistingUsername == false) {
+			Helper.line(100, "-");
+			System.out.println("Invalid Username");
+			Helper.line(100, "-");
+		} else {
+			for (int i = 0; i < userList.size(); i++) {
+				if (user_Id == userList.get(i).getUserID() && username.equals(userList.get(i).getName())) {
+					userList.remove(i);
+					Helper.line(100, "-");
+					System.out.println("User successfully removed");
+					Helper.line(100, "-");
+				}
+			}
+		}
+	}
+
+	private static void addUser(ArrayList<User> userList) {
+		int user_Id = Helper.readInt("Enter new User ID > ");
+		String username = Helper.readString("Enter new User name > ");
+		String password = Helper.readString("Enter new password > ");
+		String role = Helper.readString("Enter new role [student/teacher/advisor/admin] > ");
+
+		// CHECK IF NEW USER ID ALREADRY EXIST
+		boolean checkExistingUserId = checkExistingUserID(userList, user_Id);
+
+		// CHECK IF ROLE IS CORRECT
+		boolean checkRole = false;
+		if (role.equals("student") || role.equals("teacher") || role.equals("advisor") || role.equals("admin")) {
+			checkRole = true;
+		}
+
+		// ADD IF ALL CHECKS PASSED
+		if (checkExistingUserId == true) {
+			Helper.line(100, "-");
+			System.out.println("User ID already exist. Please use another ID.");
+			Helper.line(100, "-");
+		} else if (checkRole == false) {
+			Helper.line(100, "-");
+			System.out.println("Incorrect role.");
+			Helper.line(100, "-");
+		} else {
+			userList.add(new User(user_Id, username, password, role));
+			Helper.line(100, "-");
+			System.out.println("User successfully added");
 			Helper.line(100, "-");
 		}
 	}
