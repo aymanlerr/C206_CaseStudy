@@ -17,6 +17,8 @@ public class C206_CaseStudyTest {
 	private CCA cca2;
 	private CCA cca3;
 	
+	private Application app1;
+	
 	private ArrayList<User> userList;
 	private ArrayList<CCA> ccaList;
 	private ArrayList<Application> applicationList;
@@ -39,6 +41,8 @@ public class C206_CaseStudyTest {
 		cca1 = (new CCA(1, "Soccer", "Have fun playing soccer in this CCA!", "Wednesday: 4pm-6pm"));
 		cca2 = (new CCA(2, "Badminton", "Have fun playing badminton in this CCA!", "Wednesday: 4pm-6pm"));
 		cca3 = (new CCA(3, "Tennis", "Have fun playing tennis in this CCA!", "Friday: 4pm-6pm"));
+		
+		app1 = (new Application(1, "Soccer", "Wednesday: 4pm-6pm", 1, "gh", "gh"));
 		
 	}
 
@@ -63,6 +67,32 @@ public class C206_CaseStudyTest {
 		userList.remove(user1);
 		assertEquals("Test that deletion user will be shown correctly", 0, userList.size());
 		
+	}
+	
+	@Test
+	public void testDeleteApproval() {
+		//new approval arraylist
+		applicationList = new ArrayList<>();
+		
+		//test for existing approval arraylist
+		//test for empty arraylist
+		assertNotNull("Test if there is any approval arraylist to delete from", applicationList);
+		assertEquals("Test that arraylist is empty", 0, applicationList.size());
+		
+		//add item in arraylist
+		//test that applicationList is 1
+		//test that item is added in arraylist
+		applicationList.add(app1);
+		assertEquals("Test that arraylist size is 1", 1, applicationList.size());
+		assertSame("Test that application is added", app1, applicationList.get(0));
+		
+		//remove item in arraylist
+		//test that applicationList is 0
+		//test that item is removed from arraylist
+		applicationList.remove(app1);
+		assertEquals("Test that arraylist size is 0", 0, applicationList.size());
+		
+		C206_CaseStudy.deleteApplication(applicationList, 1, 1);
 	}
 @After
 	public void tearDown() throws Exception {
