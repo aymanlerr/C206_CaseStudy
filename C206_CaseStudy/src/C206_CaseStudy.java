@@ -87,7 +87,103 @@ public class C206_CaseStudy {
 					if (role == "teacher" || role == "advisor") {
 						maintainAttendance(attendanceList, ccaList, userList);
 					} else if (role == "admin") {
-						maintainUsers(userList, ccaList);
+
+						// MAINTAIN USER
+						displayUsers(userList);
+						Helper.line(100, "-");
+						System.out.println("1. Add User\n2. Delete User\n3. Edit User\n4. Back");
+						Helper.line(100, "-");
+						int choice = Helper.readInt("\nEnter your option > ");
+
+						if (choice == 1) {
+
+							int newUserId = Helper.readInt("Enter new User ID > ");
+							String newUsername = Helper.readString("Enter new User name > ");
+							String newPassword = Helper.readString("Enter new password > ");
+							String newRole = Helper.readString("Enter new role [student/teacher/advisor/admin] > ");
+
+							// CHECK IF NEW USER ID ALREADRY EXIST
+							boolean checkExistingUserId = checkExistingUserID(userList, newUserId);
+
+							boolean checkRole = false;
+							if (role.equals("student") || role.equals("teacher") || role.equals("advisor")
+									|| role.equals("admin")) {
+								checkRole = true;
+							}
+
+							// ADD IF ALL CHECKS PASSED
+							if (checkExistingUserId == true) {
+								Helper.line(100, "-");
+								System.out.println("User ID already exist. Please use another ID.");
+								Helper.line(100, "-");
+							} else if (checkRole == false) {
+								Helper.line(100, "-");
+								System.out.println("Incorrect role.");
+								Helper.line(100, "-");
+							} else {
+								addUser(userList, newUserId, newUsername, newPassword, newRole);
+							}
+
+						} else if (choice == 2) {
+
+							int userId = Helper.readInt("Enter User ID to delete > ");
+							String username = Helper.readString("Enter username to confirm > ");
+
+							// CHECK IF USER ID EXIST
+							boolean checkExistingUserId = checkExistingUserID(userList, userId);
+
+							// CHECK IF CCA NAME IS CORRECT
+							boolean checkExistingUsername = false;
+							for (int i = 0; i < userList.size(); i++) {
+								if (username.equalsIgnoreCase(userList.get(i).getName())) {
+									checkExistingUsername = true;
+								}
+							}
+
+							// DELETE CCA IF ALL CHECKS PASSED
+							if (checkExistingUserId == false) {
+								Helper.line(100, "-");
+								System.out.println("Invalid User ID");
+								Helper.line(100, "-");
+							} else if (checkExistingUsername == false) {
+								Helper.line(100, "-");
+								System.out.println("Invalid Username");
+								Helper.line(100, "-");
+							} else {
+								deleteUser(userList, userId, username);
+							}
+
+						} else if (choice == 3) {
+
+							int userId = Helper.readInt("Enter User ID to edit > ");
+							// CHECK IF CCA ID EXIST
+							boolean checkExistingUserId = checkExistingUserID(userList, userId);
+
+							// GET CCA POSITION
+							int position = 0;
+							if (checkExistingUserId == false) {
+								Helper.line(100, "-");
+								System.out.println("Invalid User ID");
+								Helper.line(100, "-");
+							} else {
+								for (int i = 0; i < userList.size(); i++) {
+									if (userId == userList.get(i).getUserID()) {
+										position = i;
+									}
+								}
+								System.out.println("1. User ID\n2. Username\n3. password\n4. Role\n5. CCA ID\n6. Back");
+								choice = Helper.readInt("\nEnter option to edit > ");
+								editUser(userList, ccaList, userId, position, choice);
+							}
+
+						} else if (choice == 4) {
+
+						} else {
+							Helper.line(100, "-");
+							System.out.println("Invalid option");
+							Helper.line(100, "-");
+						}
+
 					} else {
 						Helper.line(100, "-");
 						System.out.println("Invalid option");
@@ -175,131 +271,87 @@ public class C206_CaseStudy {
 		}
 		System.out.println(output);
 	}
-	
-	// MAINTAIN USER
-	public static void maintainUsers(ArrayList<User> userList, ArrayList<CCA> ccaList) {
-		displayUsers(userList);
-		Helper.line(100, "-");
-		System.out.println("1. Add User\n2. Delete User\n3. Edit User\n4. Back");
-		Helper.line(100, "-");
 
-		int option = Helper.readInt("\nEnter your option > ");
+	private static void editUser(ArrayList<User> userList, ArrayList<CCA> ccaList, int user_Id, int position, int choice) {
+		// CCA NAME
+		if (choice == 1) {
+			int newUserId = Helper.readInt("Enter new User ID > ");
 
-		if (option == 1) {
-			addUser(userList);
-		} else if (option == 2) {
-			deleteUser(userList);
+			// CHECK USER ID
+			boolean checkId = checkExistingUserID(userList, user_Id);
 
-		} else if (option == 3) {
-			int user_Id = Helper.readInt("Enter User ID to edit > ");
-
-			// CHECK IF CCA ID EXIST
-			boolean checkExistingUserId = checkExistingUserID(userList, user_Id);
-
-			// GET CCA POSITION
-			int position = 0;
-			if (checkExistingUserId == false) {
+			// UPDATE IF CHECKS PASSED
+			if (checkId == true) {
 				Helper.line(100, "-");
-				System.out.println("Invalid User ID");
+				System.out.println("User ID already exist");
 				Helper.line(100, "-");
 			} else {
-				for (int i = 0; i < userList.size(); i++) {
-					if (user_Id == userList.get(i).getUserID()) {
-						position = i;
-					}
-				}
-			}
-
-			// EDIT
-			System.out.println("1. User ID\n2. Username\n3. password\n4. Role\n5. CCA ID\n6. Back");
-			int choice = Helper.readInt("\nEnter option to edit > ");
-			// CCA NAME
-			if (choice == 1) {
-				int newUserId = Helper.readInt("Enter new User ID > ");
-
-				// CHECK USER ID
-				boolean checkId = checkExistingUserID(userList, user_Id);
-
-				// UPDATE IF CHECKS PASSED
-				if (checkId == true) {
-					Helper.line(100, "-");
-					System.out.println("User ID already exist");
-					Helper.line(100, "-");
-				} else {
-					userList.get(position).setUserID(newUserId);
-					Helper.line(100, "-");
-					System.out.println("User ID successfully updated");
-					Helper.line(100, "-");
-				}
-
-				// USERNAME
-			} else if (choice == 2) {
-				String newUsername = Helper.readString("Enter new Username > ");
-				userList.get(position).setName(newUsername);
-
-				// PASSWORD
-			} else if (choice == 3) {
-				String newPassword = Helper.readString("Enter new Password > ");
-				userList.get(position).setPassword(newPassword);
-
-				// ROLE
-			} else if (choice == 4) {
-				String newRole = "";
-				int roleInput = Helper.readInt("Enter new Role [0: Student, 1: Teacher, 2: Advisor, 3: Admin] > ");
-				boolean correctRole = true;
-				if (roleInput == 0) {
-					newRole = "student";
-				} else if (roleInput == 1) {
-					newRole = "teacher";
-				} else if (roleInput == 2) {
-					newRole = "advisor";
-				} else if (roleInput == 3) {
-					newRole = "admin";
-				} else {
-					correctRole = false;
-				}
-
-				if (correctRole == false) {
-					Helper.line(100, "-");
-					System.out.println("Invalid role");
-					Helper.line(100, "-");
-				} else {
-					userList.get(position).setRole(newRole);
-					Helper.line(100, "-");
-					System.out.println("Role successfully updated");
-					Helper.line(100, "-");
-				}
-
-			} // CCA ID
-			else if (choice == 5) {
-				displayCCA(ccaList);
-				int newCcaId = Helper.readInt("Enter new CCA ID > ");
-
-				// CHECK
-				boolean checkNewCcaId = checkExistingCcaID(ccaList, newCcaId);
-
-				// UPDATE IF PASSED
-				if (checkNewCcaId == false) {
-					Helper.line(100, "-");
-					System.out.println("Invalid CCA ID");
-					Helper.line(100, "-");
-				} else {
-					userList.get(position).setCca_ID(newCcaId);
-					Helper.line(100, "-");
-					System.out.println("CCA ID successfully updated");
-					Helper.line(100, "-");
-				}
-
-			} else if (choice == 6) {
-				// BACK
-			} else {
+				userList.get(position).setUserID(newUserId);
 				Helper.line(100, "-");
-				System.out.println("Invalid option");
+				System.out.println("User ID successfully updated");
 				Helper.line(100, "-");
 			}
 
-		} else if (option == 4) {
+			// USERNAME
+		} else if (choice == 2) {
+			String newUsername = Helper.readString("Enter new Username > ");
+			userList.get(position).setName(newUsername);
 
+			// PASSWORD
+		} else if (choice == 3) {
+			String newPassword = Helper.readString("Enter new Password > ");
+			userList.get(position).setPassword(newPassword);
+
+			// ROLE
+		} else if (choice == 4) {
+			String newRole = "";
+			int roleInput = Helper.readInt("Enter new Role [0: Student, 1: Teacher, 2: Advisor, 3: Admin] > ");
+			boolean correctRole = true;
+			if (roleInput == 0) {
+				newRole = "student";
+			} else if (roleInput == 1) {
+				newRole = "teacher";
+			} else if (roleInput == 2) {
+				newRole = "advisor";
+			} else if (roleInput == 3) {
+				newRole = "admin";
+			} else {
+				correctRole = false;
+			}
+
+			if (correctRole == false) {
+				Helper.line(100, "-");
+				System.out.println("Invalid role");
+				Helper.line(100, "-");
+			} else {
+				userList.get(position).setRole(newRole);
+				Helper.line(100, "-");
+				System.out.println("Role successfully updated");
+				Helper.line(100, "-");
+			}
+
+		} // CCA ID
+		else if (choice == 5) {
+			displayCCA(ccaList);
+			int newCcaId = Helper.readInt("Enter new CCA ID > ");
+
+			// CHECK
+			boolean checkNewCcaId = checkExistingCcaID(ccaList, newCcaId);
+
+			// UPDATE IF PASSED
+			if (checkNewCcaId == false) {
+				Helper.line(100, "-");
+				System.out.println("Invalid CCA ID");
+				Helper.line(100, "-");
+			} else {
+				userList.get(position).setCca_ID(newCcaId);
+				Helper.line(100, "-");
+				System.out.println("CCA ID successfully updated");
+				Helper.line(100, "-");
+			}
+
+		} else if (choice == 6) {
+			// BACK
 		} else {
 			Helper.line(100, "-");
 			System.out.println("Invalid option");
@@ -307,74 +359,24 @@ public class C206_CaseStudy {
 		}
 	}
 
-	private static void deleteUser(ArrayList<User> userList) {
-		int user_Id = Helper.readInt("Enter User ID to delete > ");
-		String username = Helper.readString("Enter username to confirm > ");
-
-		// CHECK IF USER ID EXIST
-		boolean checkExistingUserId = checkExistingUserID(userList, user_Id);
-
-		// CHECK IF CCA NAME IS CORRECT
-		boolean checkExistingUsername = false;
+	private static void deleteUser(ArrayList<User> userList, int user_Id, String username) {
 		for (int i = 0; i < userList.size(); i++) {
-			if (username.equalsIgnoreCase(userList.get(i).getName())) {
-				checkExistingUsername = true;
-			}
-		}
-
-		// DELETE CCA IF ALL CHECKS PASSED
-		if (checkExistingUserId == false) {
-			Helper.line(100, "-");
-			System.out.println("Invalid User ID");
-			Helper.line(100, "-");
-		} else if (checkExistingUsername == false) {
-			Helper.line(100, "-");
-			System.out.println("Invalid Username");
-			Helper.line(100, "-");
-		} else {
-			for (int i = 0; i < userList.size(); i++) {
-				if (user_Id == userList.get(i).getUserID() && username.equals(userList.get(i).getName())) {
-					userList.remove(i);
-					Helper.line(100, "-");
-					System.out.println("User successfully removed");
-					Helper.line(100, "-");
-				}
+			if (user_Id == userList.get(i).getUserID() && username.equals(userList.get(i).getName())) {
+				userList.remove(i);
+				Helper.line(100, "-");
+				System.out.println("User successfully removed");
+				Helper.line(100, "-");
 			}
 		}
 	}
 
-	private static void addUser(ArrayList<User> userList) {
-		int user_Id = Helper.readInt("Enter new User ID > ");
-		String username = Helper.readString("Enter new User name > ");
-		String password = Helper.readString("Enter new password > ");
-		String role = Helper.readString("Enter new role [student/teacher/advisor/admin] > ");
-
-		// CHECK IF NEW USER ID ALREADRY EXIST
-		boolean checkExistingUserId = checkExistingUserID(userList, user_Id);
-
-		// CHECK IF ROLE IS CORRECT
-		boolean checkRole = false;
-		if (role.equals("student") || role.equals("teacher") || role.equals("advisor") || role.equals("admin")) {
-			checkRole = true;
-		}
-
-		// ADD IF ALL CHECKS PASSED
-		if (checkExistingUserId == true) {
-			Helper.line(100, "-");
-			System.out.println("User ID already exist. Please use another ID.");
-			Helper.line(100, "-");
-		} else if (checkRole == false) {
-			Helper.line(100, "-");
-			System.out.println("Incorrect role.");
-			Helper.line(100, "-");
-		} else {
-			userList.add(new User(user_Id, username, password, role));
-			Helper.line(100, "-");
-			System.out.println("User successfully added");
-			Helper.line(100, "-");
-		}
+	private static void addUser(ArrayList<User> userList, int user_Id, String username, String password, String role) {
+		userList.add(new User(user_Id, username, password, role));
+		Helper.line(100, "-");
+		System.out.println("User successfully added");
+		Helper.line(100, "-");
 	}
-	
+
 	private static void maintainAttendance(ArrayList<Attendance> attendanceList, ArrayList<CCA> ccaList,
 			ArrayList<User> userList) {
 		if (displayAttendance(attendanceList, ccaList) == true) {
@@ -415,7 +417,8 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 				} else {
 					for (int i = 0; i < attendanceList.size(); i++) {
-						if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
+						if (ccaID == attendanceList.get(i).getCca_ID()
+								&& userID == attendanceList.get(i).getUser_ID()) {
 							attendanceList.remove(i);
 							Helper.line(100, "-");
 							System.out.println("Application succesfully deleted");
@@ -470,7 +473,8 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 				} else {
 					for (int i = 0; i < attendanceList.size(); i++) {
-						if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
+						if (ccaID == attendanceList.get(i).getCca_ID()
+								&& userID == attendanceList.get(i).getUser_ID()) {
 							attendanceList.get(i).setStatus(status);
 							Helper.line(100, "-");
 							System.out.println("Attendance succesfully updated");
@@ -484,7 +488,7 @@ public class C206_CaseStudy {
 		}
 
 	}
-	
+
 	// DISPLAY ATTENDANCE
 	private static boolean displayAttendance(ArrayList<Attendance> attendanceList, ArrayList<CCA> ccaList) {
 		// CCA ATTENDANCE AVAILABLE
@@ -546,7 +550,7 @@ public class C206_CaseStudy {
 		}
 
 	}
-	
+
 	private static void displayUsers(ArrayList<User> userList) {
 		Helper.line(100, "-");
 		System.out.println(String.format("%50s", "Users"));
@@ -585,7 +589,7 @@ public class C206_CaseStudy {
 		}
 		System.out.println(output);
 	}
-	
+
 	// CHECK IF CCA ID IS CORRECT / EXIST
 	private static boolean checkExistingCcaID(ArrayList<CCA> ccaList, int cca_ID) {
 		for (int i = 0; i < ccaList.size(); i++) {
@@ -595,7 +599,7 @@ public class C206_CaseStudy {
 		}
 		return false;
 	}
-	
+
 	// CHECK FOR EXISTING APPLICATION
 	private static boolean checkExistingApplication(ArrayList<Application> applicationList, int user_ID, int cca_ID) {
 		for (int i = 0; i < applicationList.size(); i++) {
@@ -605,7 +609,7 @@ public class C206_CaseStudy {
 		}
 		return false;
 	}
-	
+
 	// GET NUMBER OF APPLIED CCAs
 	private static int getAppliedCCA(ArrayList<Application> applicationList, int user_ID) {
 		int appliedCCAs = 0;
@@ -616,7 +620,7 @@ public class C206_CaseStudy {
 		}
 		return appliedCCAs;
 	}
-	
+
 	// REGISTER FOR CCA
 	private static void registerCCA(ArrayList<CCA> ccaList, ArrayList<User> userList,
 			ArrayList<Application> applicationList, int user_ID) {
@@ -668,7 +672,7 @@ public class C206_CaseStudy {
 			}
 		}
 	}
-	
+
 	// CHECK IF TIMESLOT EXIST WITH SAME CCA NAME
 	private static boolean checkExistingTimeslotAndName(ArrayList<CCA> ccaList, String timeslot, String cca_name) {
 		for (int i = 0; i < ccaList.size(); i++) {
@@ -679,7 +683,7 @@ public class C206_CaseStudy {
 		}
 		return false;
 	}
-	
+
 	// CHECK IF CCA NAME IS CORRECT
 	private static boolean checkExistingCcaName(ArrayList<CCA> ccaList, String cca_name) {
 		for (int i = 0; i < ccaList.size(); i++) {
@@ -690,7 +694,6 @@ public class C206_CaseStudy {
 		return false;
 	}
 
-	
 	// MAINTAIN CCA
 	private static void maintainCCA(ArrayList<CCA> ccaList) {
 		displayCCA(ccaList);
@@ -854,7 +857,7 @@ public class C206_CaseStudy {
 			Helper.line(100, "-");
 		}
 	}
-	
+
 	// DISPLAY APPLICATION APPROVAL STATUS
 	private static void displayApplications(ArrayList<Application> applicationList, int user_ID, String role) {
 		Helper.line(100, "-");
@@ -877,7 +880,7 @@ public class C206_CaseStudy {
 		}
 		System.out.println(output);
 	}
-	
+
 	// CHECK USER ID
 	private static boolean checkExistingUserID(ArrayList<User> userList, int user_ID) {
 		for (int i = 0; i < userList.size(); i++) {
@@ -887,7 +890,7 @@ public class C206_CaseStudy {
 		}
 		return false;
 	}
-	
+
 	// MAINTAIN APPLICATION
 	private static void maintainApplication(ArrayList<Application> applicationList, ArrayList<CCA> ccaList,
 			ArrayList<User> userList, ArrayList<Attendance> attendanceList, int user_ID, String role) {
