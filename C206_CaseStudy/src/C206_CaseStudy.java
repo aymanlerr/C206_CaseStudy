@@ -56,18 +56,84 @@ public class C206_CaseStudy {
 				if (option == 1) {
 					// AUTO-MENU
 				} else if (option == 2) {
+					
 					displayCCA(ccaList);
+	
 				} else if (option == 3) {
+					
 					if (role.equals("student")) {
 						registerCCA(ccaList, userList, applicationList, user_ID);
 					} else {
 						maintainCCA(ccaList);
 					}
+					
 				} else if (option == 4) {
+					
 					displayApplications(applicationList, user_ID, role);
+					
 				} else if (option == 5) {
+					
 					if (role != "student") {
-						maintainApplication(applicationList, ccaList, userList, attendanceList, user_ID, role);
+						
+						if (displayApplications(applicationList, user_ID, role) == true) {
+							Helper.line(100, "-");
+							System.out.println("1. Delete Application\n2. Set Application Approval\n3. Back");
+							Helper.line(100, "-");
+							int choice = Helper.readInt("\nEnter your option > ");
+							
+							if (choice == 1) {
+								// DELETE APPLICATION
+								int ccaID = Helper.readInt("Enter application CCA ID > ");
+								int userID = Helper.readInt("Enter application user ID > ");
+
+								// CHECK INPUT FIELDS
+								boolean checkCcaId = checkExistingCcaID(ccaList, ccaID);
+								boolean checkUserId = checkExistingUserID(userList, userID);
+								
+								// DELETE IF ALL CHECK PASSED
+								if (checkCcaId == false) {
+									Helper.line(100, "-");
+									System.out.println("Invalid CCA ID");
+									Helper.line(100, "-");
+								} else if (checkUserId == false) {
+									Helper.line(100, "-");
+									System.out.println("Invalid User ID");
+									Helper.line(100, "-");
+								} else {
+									deleteApplication(applicationList, ccaID, userID);
+								}
+							} else if (choice == 2) {
+								// APPROVE OR REJECT APPLICATION
+								int ccaID = Helper.readInt("Enter application CCA ID > ");
+								int userID = Helper.readInt("Enter application user ID > ");
+								int approve = Helper.readInt("Enter 0 to approve and 1 to reject > ");
+								
+								// CHECK INPUT FIELDS
+								boolean checkCcaId = checkExistingCcaID(ccaList, ccaID);
+								boolean checkUserId = checkExistingUserID(userList, userID);
+								
+								// UPDATE APPLICATION STATUS IF CHECKING FIELDS PASS
+								if (checkCcaId == false) {
+									Helper.line(100, "-");
+									System.out.println("Invalid CCA ID");
+									Helper.line(100, "-");
+								} else if (checkUserId == false) {
+									Helper.line(100, "-");
+									System.out.println("Invalid User ID");
+									Helper.line(100, "-");
+								} else {
+									editApplication(applicationList, ccaList, userList, attendanceList, approve, ccaID, userID);
+								}
+								
+							} else if (choice == 3) {
+								// BACK
+							} else {
+								Helper.line(100, "-");
+								System.out.println("Invalid option");
+								Helper.line(100, "-");
+							}
+						}
+						
 					} else {
 						Helper.line(100, "-");
 						System.out.println("Invalid option");
@@ -859,7 +925,7 @@ public class C206_CaseStudy {
 	}
 
 	// DISPLAY APPLICATION APPROVAL STATUS
-	private static void displayApplications(ArrayList<Application> applicationList, int user_ID, String role) {
+	private static boolean displayApplications(ArrayList<Application> applicationList, int user_ID, String role) {
 		Helper.line(100, "-");
 		System.out.println(String.format("%60s", "VIEW CCA APPROVAL STATUS"));
 		Helper.line(100, "-");
@@ -867,18 +933,24 @@ public class C206_CaseStudy {
 				"USER_ID", "USERNAME", "STATUS"));
 		Helper.line(100, "-");
 		String output = "";
-		if (role == "student") {
-			for (int i = 0; i < applicationList.size(); i++) {
-				if (user_ID == applicationList.get(i).getUser_ID()) {
+		if (applicationList.size() != 0) {
+			if (role == "student") {
+				for (int i = 0; i < applicationList.size(); i++) {
+					if (user_ID == applicationList.get(i).getUser_ID()) {
+						output += applicationList.get(i).display();
+					}
+				}
+			} else {
+				for (int i = 0; i < applicationList.size(); i++) {
 					output += applicationList.get(i).display();
 				}
 			}
+			System.out.println(output);
+			return true;
 		} else {
-			for (int i = 0; i < applicationList.size(); i++) {
-				output += applicationList.get(i).display();
-			}
+			System.out.println("There are no applications");
+			return false;
 		}
-		System.out.println(output);
 	}
 
 	// CHECK USER ID
@@ -891,114 +963,64 @@ public class C206_CaseStudy {
 		return false;
 	}
 
-	// MAINTAIN APPLICATION
-	private static void maintainApplication(ArrayList<Application> applicationList, ArrayList<CCA> ccaList,
-			ArrayList<User> userList, ArrayList<Attendance> attendanceList, int user_ID, String role) {
-		displayApplications(applicationList, user_ID, role);
-		Helper.line(100, "-");
-		System.out.println("1. Delete Application\n2. Set Application Approval\n3. Back");
-		Helper.line(100, "-");
-		int option = Helper.readInt("\nEnter your option > ");
+	private static void editApplication(ArrayList<Application> applicationList, ArrayList<CCA> ccaList,
+			ArrayList<User> userList, ArrayList<Attendance> attendanceList, int approve, int ccaID, int userID) {
+		if (approve == 0) {
+			String cca_name = "";
+			String timeslot = "";
+			String username = "";
+			int pos = 0;
 
-		if (option == 1) {
-			// DELETE APPLICATION
-			int ccaID = Helper.readInt("Enter application CCA ID > ");
-			int userID = Helper.readInt("Enter application user ID > ");
-
-			// CHECK INPUT FIELDS
-			boolean checkCcaId = checkExistingCcaID(ccaList, ccaID);
-			boolean checkUserId = checkExistingUserID(userList, userID);
-
-			// DELETE IF ALL CHECK PASSED
-			if (checkCcaId == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid CCA ID");
-				Helper.line(100, "-");
-			} else if (checkUserId == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid User ID");
-				Helper.line(100, "-");
-			} else {
-				for (int i = 0; i < applicationList.size(); i++) {
-					if (ccaID == applicationList.get(i).getCca_ID() && userID == applicationList.get(i).getUser_ID()) {
-						applicationList.remove(i);
-						Helper.line(100, "-");
-						System.out.println("Application succesfully deleted");
-						Helper.line(100, "-");
-					}
+			for (int i = 0; i < ccaList.size(); i++) {
+				if (ccaID == ccaList.get(i).getCcaID()) {
+					cca_name = ccaList.get(i).getCca_name();
+					timeslot = ccaList.get(i).getTimeslot();
 				}
 			}
 
-		} else if (option == 2) {
-			// APPROVE OR REJECT APPLICATION
-			int ccaID = Helper.readInt("Enter application CCA ID > ");
-			int userID = Helper.readInt("Enter application user ID > ");
-			int approve = Helper.readInt("Enter 0 to approve and 1 to reject > ");
-
-			// CHECK INPUT FIELDS
-			boolean checkCcaId = checkExistingCcaID(ccaList, ccaID);
-			boolean checkUserId = checkExistingUserID(userList, userID);
-
-			// UPDATE APPLICATION STATUS IF CHECKING FIELDS PASS
-			if (checkCcaId == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid CCA ID");
-				Helper.line(100, "-");
-			} else if (checkUserId == false) {
-				Helper.line(100, "-");
-				System.out.println("Invalid User ID");
-				Helper.line(100, "-");
-			} else {
-				if (approve == 0) {
-					String cca_name = "";
-					String timeslot = "";
-					String username = "";
-					int pos = 0;
-
-					for (int i = 0; i < ccaList.size(); i++) {
-						if (ccaID == ccaList.get(i).getCcaID()) {
-							cca_name = ccaList.get(i).getCca_name();
-							timeslot = ccaList.get(i).getTimeslot();
-						}
-					}
-
-					for (int i = 0; i < userList.size(); i++) {
-						if (userID == userList.get(i).getUserID()) {
-							username = userList.get(i).getName();
-							pos = i;
-						}
-					}
-
-					for (int i = 0; i < applicationList.size(); i++) {
-						if (ccaID == applicationList.get(i).getCca_ID()
-								&& userID == applicationList.get(i).getUser_ID()) {
-							applicationList.get(i).setStatus("Approved");
-							attendanceList.add(new Attendance(ccaID, cca_name, timeslot, userID, username, ""));
-							userList.get(pos).setCca_ID(ccaID);
-							Helper.line(100, "-");
-							System.out.println("Application succesfully approved");
-							Helper.line(100, "-");
-						}
-					}
-				} else if (approve == 1) {
-					for (int i = 0; i < applicationList.size(); i++) {
-						if (ccaID == applicationList.get(i).getCca_ID()
-								&& userID == applicationList.get(i).getUser_ID()) {
-							applicationList.get(i).setStatus("Rejected");
-							Helper.line(100, "-");
-							System.out.println("Application succesfully rejected");
-							Helper.line(100, "-");
-						}
-					}
-				} else {
-					Helper.line(100, "-");
-					System.out.println("Invalid option");
-					Helper.line(100, "-");
+			for (int i = 0; i < userList.size(); i++) {
+				if (userID == userList.get(i).getUserID()) {
+					username = userList.get(i).getName();
+					pos = i;
 				}
 			}
 
-		} else if (option == 3) {
-			// BACK
+			for (int i = 0; i < applicationList.size(); i++) {
+				if (ccaID == applicationList.get(i).getCca_ID()
+						&& userID == applicationList.get(i).getUser_ID()) {
+					applicationList.get(i).setStatus("Approved");
+					attendanceList.add(new Attendance(ccaID, cca_name, timeslot, userID, username, ""));
+					userList.get(pos).setCca_ID(ccaID);
+					Helper.line(100, "-");
+					System.out.println("Application succesfully approved");
+					Helper.line(100, "-");
+				}
+			}
+		} else if (approve == 1) {
+			for (int i = 0; i < applicationList.size(); i++) {
+				if (ccaID == applicationList.get(i).getCca_ID()
+						&& userID == applicationList.get(i).getUser_ID()) {
+					applicationList.get(i).setStatus("Rejected");
+					Helper.line(100, "-");
+					System.out.println("Application succesfully rejected");
+					Helper.line(100, "-");
+				}
+			}
+		} else {
+			Helper.line(100, "-");
+			System.out.println("Invalid option");
+			Helper.line(100, "-");
+		}
+	}
+
+	private static void deleteApplication(ArrayList<Application> applicationList, int ccaID, int userID) {
+		for (int i = 0; i < applicationList.size(); i++) {
+			if (ccaID == applicationList.get(i).getCca_ID() && userID == applicationList.get(i).getUser_ID()) {
+				applicationList.remove(i);
+				Helper.line(100, "-");
+				System.out.println("Application succesfully deleted");
+				Helper.line(100, "-");
+			}
 		}
 	}
 
