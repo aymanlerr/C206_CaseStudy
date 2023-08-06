@@ -177,7 +177,7 @@ public class C206_CaseStudy {
 	}
 	
 	// MAINTAIN USER
-	private static void maintainUsers(ArrayList<User> userList, ArrayList<CCA> ccaList) {
+	public static void maintainUsers(ArrayList<User> userList, ArrayList<CCA> ccaList) {
 		displayUsers(userList);
 		Helper.line(100, "-");
 		System.out.println("1. Add User\n2. Delete User\n3. Edit User\n4. Back");
