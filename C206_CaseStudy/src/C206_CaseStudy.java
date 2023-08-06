@@ -23,7 +23,6 @@ public class C206_CaseStudy {
 
 		userList.add(new User(4, "Liam", "4", "student"));
 		userList.add(new User(5, "Amran", "5", "student"));
-		;
 
 		// setup ArrayList of CCAs
 		ArrayList<CCA> ccaList = new ArrayList<>();
@@ -58,21 +57,47 @@ public class C206_CaseStudy {
 		if (start == true) {
 			int option = 0;
 			while (option != OPTION_QUIT) {
-
 				role = getRole(userList, user_ID, password);
 				menu(role);
 				option = Helper.readInt("\nEnter option > ");
 
 				if (option == OPTION_MENU) {
 					// AUTO-MENU
+					
 				} else if (option == OPTION_DISPLAY_CCA) {
-
 					displayCCA(ccaList);
 
 				} else if (option == OPTION_REGISTER_OR_MAINTAIN_CCA) {
-
 					if (role.equals("student")) {
-						registerCCA(ccaList, userList, applicationList, user_ID);
+						displayCCA(ccaList);
+						int ccaId = Helper.readInt("Enter CCA ID that you want to join > ");
+
+						// CHECK CCA ID IS CORRECT
+						boolean checkCCAID = checkExistingCcaID(ccaList, ccaId);
+
+						// CHECK EXISTING APPLICATION
+						boolean checkExistingApplication = checkExistingApplication(applicationList, user_ID, ccaId);
+
+						// CHECK NUMBER OF APPLICATION
+						int appliedCCAs = getAppliedCCA(applicationList, user_ID);
+						
+						// ADD APPLICATION IF ALL CHECKING STAGES PASSED
+						if (checkCCAID == false) {
+							Helper.line(100, "-");
+							System.out.println("Incorrect CCA ID");
+							Helper.line(100, "-");
+						} else if (checkExistingApplication == true) {
+							Helper.line(100, "-");
+							System.out.println("You have already applied for this CCA");
+							Helper.line(100, "-");
+						} else if (appliedCCAs == 2) {
+							Helper.line(100, "-");
+							System.out.println("You have applied for 2 CCas. Maximum application is 2.");
+							Helper.line(100, "-");
+						} else {
+							registerCCA(ccaList, userList, applicationList, user_ID, ccaId);
+						}
+						
 					} else {
 
 						displayCCA(ccaList);
@@ -251,16 +276,18 @@ public class C206_CaseStudy {
 						Helper.line(100, "-");
 					}
 				} else if (option == OPTION_DISPLAY_ATTENDANCE) {
+					
 					if (role == "teacher" || role == "advisor") {
-
 						displayAttendance(attendanceList, ccaList);
 
 					} else if (role == "admin") {
 						displayUsers(userList);
+						
 					} else {
 						Helper.line(100, "-");
 						System.out.println("Invalid option");
 						Helper.line(100, "-");
+						
 					}
 				} else if (option == OPTION_MAINTAIN_ATTENDANCE_OR_USER) {
 					if (role == "teacher" || role == "advisor") {
@@ -810,33 +837,7 @@ public class C206_CaseStudy {
 
 	// REGISTER FOR CCA
 	public static void registerCCA(ArrayList<CCA> ccaList, ArrayList<User> userList,
-			ArrayList<Application> applicationList, int user_ID) {
-		displayCCA(ccaList);
-		int cca_ID = Helper.readInt("Enter CCA ID that you want to join > ");
-
-		// CHECK CCA ID IS CORRECT
-		boolean checkCCAID = checkExistingCcaID(ccaList, cca_ID);
-
-		// CHECK EXISTING APPLICATION
-		boolean checkExistingApplication = checkExistingApplication(applicationList, user_ID, cca_ID);
-
-		// CHECK NUMBER OF APPLICATION
-		int appliedCCAs = getAppliedCCA(applicationList, user_ID);
-
-		// ADD APPLICATION IF ALL CHECKING STAGES PASSED
-		if (checkCCAID == false) {
-			Helper.line(100, "-");
-			System.out.println("Incorrect CCA ID");
-			Helper.line(100, "-");
-		} else if (checkExistingApplication == true) {
-			Helper.line(100, "-");
-			System.out.println("You have already applied for this CCA");
-			Helper.line(100, "-");
-		} else if (appliedCCAs == 2) {
-			Helper.line(100, "-");
-			System.out.println("You have applied for 2 CCas. Maximum application is 2.");
-			Helper.line(100, "-");
-		} else {
+			ArrayList<Application> applicationList, int user_ID, int cca_ID) {
 			// GET CCA NAME AND TIMESLOT
 			String cca_name = "";
 			String timeslot = "";
@@ -857,7 +858,7 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 				}
 			}
-		}
+		
 	}
 
 	// CHECK IF TIMESLOT EXIST WITH SAME CCA NAME
