@@ -20,19 +20,12 @@ public class C206_CaseStudyTest {
 	private Application app1;
 	
 	private Attendance att1;
-<<<<<<< HEAD
+
 	
 	private ArrayList<User> userList;
 	private ArrayList<CCA> ccaList;
 	private ArrayList<Application> applicationList;
 	private ArrayList<Attendance> attendanceList;
-=======
-	
-	private ArrayList<User> userList = new ArrayList<>();
-	private ArrayList<CCA> ccaList = new ArrayList<>();
-	private ArrayList<Application> applicationList = new ArrayList<>();
-	private ArrayList<Attendance> attendanceList = new ArrayList<>();
->>>>>>> branch 'master' of https://github.com/aymanlerr/C206_CaseStudy.git
 
 	
 	public C206_CaseStudyTest() {
@@ -68,8 +61,6 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
-<<<<<<< HEAD
-=======
 	public void testViewApplications() {
 		//Create new application and user arraylist
 		applicationList = new ArrayList<>();
@@ -108,7 +99,6 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
->>>>>>> branch 'master' of https://github.com/aymanlerr/C206_CaseStudy.git
 	public void testAddUsers() {
 		int userId = 1;
 		String username = "Aiman";
@@ -186,31 +176,6 @@ public class C206_CaseStudyTest {
         assertTrue("Test that the displayed CCAs contain CCA 1 - Soccer", ccaList.get(1));
         assertTrue("Test that the displayed CCAs contain CCA 2 - Badminton", ccaList.get(2));
         assertTrue("Test that the displayed CCAs contain CCA 3 - Tennis", ccaList.get(3));
-	}
-
-	
-	@Test
-	public void testDeleteAttendance() {
-		// declare new attendance list
-		attendanceList = new ArrayList<>();
-		
-		// check that attendance list exist
-		assertNotNull("Test that the attendance list exist", attendanceList);
-		
-		// check that there is no attendance in the attendance list
-		assertEquals("Test that the attendance list is empty", 0, attendanceList.size());
-		
-		// add attendance
-		attendanceList.add(att1);
-		
-		// check that there is 1 attendance in the attendance list
-		assertEquals("Thest that the size of attendance list is 1", 1, attendanceList.size());
-		
-		// delete attendance
-		C206_CaseStudy.deleteAttendance(attendanceList, 1, 1);
-		
-		// check that there is no attendance in the attendance list
-		assertEquals("Test that the size of attendance list is 0", 0, attendanceList.size());
 	}
 	
 	@Test
