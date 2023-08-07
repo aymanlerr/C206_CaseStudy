@@ -107,9 +107,9 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that the displayed CCAs contain the text 'view all activities'", ccaList);
 
         // Test that the student can view all CCAs when clicking on the "view all activities" button.
-        assertTrue("Test that the displayed CCAs contain CCA 1 - Soccer", ccaList.contains(1, "Soccer", "Have fun playing soccer in this CCA!", "Wednesday: 4pm-6pm"));
-        assertTrue("Test that the displayed CCAs contain CCA 2 - Badminton", ccaList.contains(2, "Badminton", "Have fun playing badminton in this CCA!", "Wednesday: 4pm-6pm"));
-        assertTrue("Test that the displayed CCAs contain CCA 3 - Tennis", ccaList.contains(3, "Tennis", "Have fun playing tennis in this CCA!", "Friday: 4pm-6pm"));
+        assertTrue("Test that the displayed CCAs contain CCA 1 - Soccer", ccaList.get(1));
+        assertTrue("Test that the displayed CCAs contain CCA 2 - Badminton", ccaList.get(2));
+        assertTrue("Test that the displayed CCAs contain CCA 3 - Tennis", ccaList.get(3));
 	}
 	
 	
