@@ -19,6 +19,8 @@ public class C206_CaseStudyTest {
 	
 	private Application app1;
 	
+	private Attendance att1;
+	
 	private ArrayList<User> userList;
 	private ArrayList<CCA> ccaList;
 	private ArrayList<Application> applicationList;
@@ -43,6 +45,8 @@ public class C206_CaseStudyTest {
 		cca3 = (new CCA(3, "Tennis", "Have fun playing tennis in this CCA!", "Friday: 4pm-6pm"));
 		
 		app1 = (new Application(1, "Soccer", "Wednesday: 4pm-6pm", 1, "gh", "gh"));
+		
+		att1 = (new Attendance(1, "Soccer", "Monday: 4pm-5pm", 1, "Aiman", ""));
 		
 	}
 
@@ -94,6 +98,32 @@ public class C206_CaseStudyTest {
 		
 		C206_CaseStudy.deleteApplication(applicationList, 1, 1);
 	}
+	
+	@Test
+	public void testDeleteAttendance() {
+		// declare new attendance list
+		attendanceList = new ArrayList<>();
+		
+		// check that attendance list exist
+		assertNotNull("Test that the attendance list exist", attendanceList);
+		
+		// check that there is no attendance in the attendance list
+		assertEquals("Test that the attendance list is empty", 0, attendanceList.size());
+		
+		// add attendance
+		attendanceList.add(att1);
+		
+		// check that there is 1 attendance in the attendance list
+		assertEquals("Thest that the size of attendance list is 1", 1, attendanceList.size());
+		
+		// delete attendance
+		C206_CaseStudy.deleteAttendance(attendanceList, 1, 1);
+		
+		// check that there is no attendance in the attendance list
+		assertEquals("Test that the size of attendance list is 0", 0, attendanceList.size());
+	}
+	
+	
 @After
 	public void tearDown() throws Exception {
 	}

@@ -707,7 +707,7 @@ public class C206_CaseStudy {
 
 	}
 
-	private static void editAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID, String status) {
+	public static void editAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID, String status) {
 		for (int i = 0; i < attendanceList.size(); i++) {
 			if (ccaID == attendanceList.get(i).getCca_ID()
 					&& userID == attendanceList.get(i).getUser_ID()) {
@@ -719,7 +719,7 @@ public class C206_CaseStudy {
 		}
 	}
 
-	private static void deleteAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID) {
+	public static void deleteAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID) {
 		for (int i = 0; i < attendanceList.size(); i++) {
 			if (ccaID == attendanceList.get(i).getCca_ID()
 					&& userID == attendanceList.get(i).getUser_ID()) {
