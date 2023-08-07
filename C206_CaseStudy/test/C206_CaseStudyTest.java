@@ -68,24 +68,44 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that arrayList increases size to 1", 1, userList.size());
 	}
 	
-	@Test
-	public void testDeleteApproval() {
+	public void testAddApplication() {
+		//Create new application, cca, and user arraylist
+		applicationList = new ArrayList<>();
+		userList = new ArrayList<>();
+		ccaList = new ArrayList<>();
+		
+		//Adding a user and cca to their respective arrayLists, and declaring user_ID and cca_ID variables
+		userList.add(user1);
+		ccaList.add(cca1);
+		
+		
+		//Test that there is existing application arraylist to add to
+		//Test that the application arraylist is empty
+		assertNotNull("Test if there is valid application arrayList to add to", applicationList);
+		assertEquals("Test that the user arrayList is empty", 0, applicationList.size());
+		
+		//Test adding of application to arraylist
+		//Test that new application has been added to application arraylist
+		C206_CaseStudy.registerCCA(ccaList, userList, applicationList, userList.get(0).getUserID(), ccaList.get(0).getCcaID());
+		assertEquals("Test that arrayList has increased due to new application", 1, applicationList.size());
+	}
 	
-		//test for existing approval arraylist
+	
+	@Test
+	public void testDeleteApplication() {
+		//new application arraylist
+		applicationList = new ArrayList<>();
+		
 		//test for empty arraylist
 		assertNotNull("Test if there is any approval arraylist to delete from", applicationList);
 		assertEquals("Test that arraylist is empty", 0, applicationList.size());
 		
 		//add item in arraylist
-		//test that applicationList is 1
-		//test that item is added in arraylist
 		applicationList.add(app1);
 		assertEquals("Test that arraylist size is 1", 1, applicationList.size());
 		assertSame("Test that application is added", app1, applicationList.get(0));
 		
 		//remove item in arraylist
-		//test that applicationList is 0
-		//test that item is removed from arraylist
 		C206_CaseStudy.deleteApplication(applicationList, 1, 1);
 		assertEquals("Test that arraylist size is 0", 0, applicationList.size());
 		
