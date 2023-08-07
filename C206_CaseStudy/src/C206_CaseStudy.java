@@ -69,211 +69,26 @@ public class C206_CaseStudy {
 
 				} else if (option == OPTION_REGISTER_OR_MAINTAIN_CCA) {
 					if (role.equals("student")) {
-						displayCCA(ccaList);
-						int ccaId = Helper.readInt("Enter CCA ID that you want to join > ");
-
-						// CHECK CCA ID IS CORRECT
-						boolean checkCCAID = checkExistingCcaID(ccaList, ccaId);
-
-						// CHECK EXISTING APPLICATION
-						boolean checkExistingApplication = checkExistingApplication(applicationList, user_ID, ccaId);
-
-						// CHECK NUMBER OF APPLICATION
-						int appliedCCAs = getAppliedCCA(applicationList, user_ID);
-						
-						// ADD APPLICATION IF ALL CHECKING STAGES PASSED
-						if (checkCCAID == false) {
-							Helper.line(100, "-");
-							System.out.println("Incorrect CCA ID");
-							Helper.line(100, "-");
-						} else if (checkExistingApplication == true) {
-							Helper.line(100, "-");
-							System.out.println("You have already applied for this CCA");
-							Helper.line(100, "-");
-						} else if (appliedCCAs == 2) {
-							Helper.line(100, "-");
-							System.out.println("You have applied for 2 CCas. Maximum application is 2.");
-							Helper.line(100, "-");
-						} else {
-							registerCCA(ccaList, userList, applicationList, user_ID, ccaId);
-						}
+						applyCCA(userList, ccaList, applicationList, user_ID);
 						
 					} else {
-
-						displayCCA(ccaList);
-						Helper.line(100, "-");
-						System.out.println("1. Add CCA\n2. Delete CCA\n3. Edit CCA\n4. Back");
-						Helper.line(100, "-");
-						int choice = Helper.readInt("\nEnter your option > ");
-
-						if (choice == 1) {
-
-							int cca_ID = 1;
-							boolean getId = false;
-							ArrayList<Integer> ccaIds = new ArrayList<>();
-							for (int i = 0; i < ccaList.size(); i++) {
-								ccaIds.add(ccaList.get(i).getCcaID());
-							}
-
-							while (getId == false) {
-								if (ccaIds.contains(cca_ID)) {
-									cca_ID++;
-								} else {
-									getId = true;
-								}
-							}
-
-							String cca_name = Helper.readString("Enter new CCA name > ");
-							String desc = Helper.readString("Enter new CCA description > ");
-							String timeslot = Helper.readString(
-									"Enter new timeslot    Format=> day[spelled out]: [#][pm/am]-[#][pm/am] > ");
-
-							// CHECK IF NEW CCA ID IS VALID
-							boolean checkExistingCcaID = checkExistingCcaID(ccaList, cca_ID);
-
-							// CHECK IF NEW TIMESLOT IS VALID
-							boolean checkExistingTimeslot = checkExistingTimeslotAndName(ccaList, timeslot, cca_name);
-
-							// ADD IF ALL CHECKS PASSED
-							if (checkExistingCcaID == true) {
-								Helper.line(100, "-");
-								System.out.println("CCA ID already exist. Please use another ID.");
-								Helper.line(100, "-");
-							} else if (checkExistingTimeslot == true) {
-								Helper.line(100, "-");
-								System.out.println("Timeslot for the CCA already exist. Please enter another timeslot");
-								Helper.line(100, "-");
-							} else {
-								addCCA(ccaList, cca_ID, cca_name, desc, timeslot);
-							}
-						} else if (choice == 2) {
-							int cca_ID = Helper.readInt("Enter CCA ID to delete > ");
-							String cca_name = Helper.readString("Enter CCA name to confirm > ");
-							
-							// CHECK IF CCA ID EXIST
-							boolean checkExistingCcaID = checkExistingCcaID(ccaList, cca_ID);
-
-							// CHECK IF CCA NAME IS CORRECT
-							boolean checkExistingCcaName = checkExistingCcaName(ccaList, cca_name);
-							
-							// DELETE CCA IF ALL CHECKS PASSED
-							if (checkExistingCcaID == false) {
-								Helper.line(100, "-");
-								System.out.println("Invalid CCA ID");
-								Helper.line(100, "-");
-							} else if (checkExistingCcaName == false) {
-								Helper.line(100, "-");
-								System.out.println("Invalid CCA name");
-								Helper.line(100, "-");
-							} else {
-								deleteCCA(ccaList, cca_ID, cca_name);
-							}
-						} else if (choice == 3) {
-							int cca_ID = Helper.readInt("Enter CCA ID to edit > ");
-							
-							// CHECK IF CCA ID EXIST
-							boolean checkExistingCcaID = checkExistingCcaID(ccaList, cca_ID);
-							
-							// GET CCA POSITION
-							int position = 0;
-							if (checkExistingCcaID == false) {
-								Helper.line(100, "-");
-								System.out.println("Invalid CCA ID");
-								Helper.line(100, "-");
-							} else {
-								for (int i = 0; i < ccaList.size(); i++) {
-									if (cca_ID == ccaList.get(i).getCcaID()) {
-										position = i;
-									}
-								}
-							}
-							
-							// EDIT
-							System.out.println("1. CCA Name\n2. CCA Description\n3. Timeslot\n4. Back");
-							int edit = Helper.readInt("\nEnter option to edit > ");
-							editCCA(ccaList, edit, position);
-							
-						} else if (choice == 4) {
-							// BACK
-						} else {
-							Helper.line(100, "-");
-							System.out.println("Invalid option");
-							Helper.line(100, "-");
-						}
+						maintainCCA(ccaList);
+						
 					}
 
 				} else if (option == OPTION_DISPLAY_APPLICATION) {
-
 					displayApplications(applicationList, user_ID, role);
 
 				} else if (option == OPTION_MAINTAIN_APPLICATION) {
 
 					if (role != "student") {
-
-						if (displayApplications(applicationList, user_ID, role) == true) {
-							Helper.line(100, "-");
-							System.out.println("1. Delete Application\n2. Set Application Approval\n3. Back");
-							Helper.line(100, "-");
-							int choice = Helper.readInt("\nEnter your option > ");
-
-							if (choice == 1) {
-								// DELETE APPLICATION
-								int ccaID = Helper.readInt("Enter application CCA ID > ");
-								int userID = Helper.readInt("Enter application user ID > ");
-
-								// CHECK INPUT FIELDS
-								boolean checkCcaId = checkExistingCcaID(ccaList, ccaID);
-								boolean checkUserId = checkExistingUserID(userList, userID);
-
-								// DELETE IF ALL CHECK PASSED
-								if (checkCcaId == false) {
-									Helper.line(100, "-");
-									System.out.println("Invalid CCA ID");
-									Helper.line(100, "-");
-								} else if (checkUserId == false) {
-									Helper.line(100, "-");
-									System.out.println("Invalid User ID");
-									Helper.line(100, "-");
-								} else {
-									deleteApplication(applicationList, ccaID, userID);
-								}
-							} else if (choice == 2) {
-								// APPROVE OR REJECT APPLICATION
-								int ccaID = Helper.readInt("Enter application CCA ID > ");
-								int userID = Helper.readInt("Enter application user ID > ");
-								int approve = Helper.readInt("Enter 0 to approve and 1 to reject > ");
-
-								// CHECK INPUT FIELDS
-								boolean checkCcaId = checkExistingCcaID(ccaList, ccaID);
-								boolean checkUserId = checkExistingUserID(userList, userID);
-
-								// UPDATE APPLICATION STATUS IF CHECKING FIELDS PASS
-								if (checkCcaId == false) {
-									Helper.line(100, "-");
-									System.out.println("Invalid CCA ID");
-									Helper.line(100, "-");
-								} else if (checkUserId == false) {
-									Helper.line(100, "-");
-									System.out.println("Invalid User ID");
-									Helper.line(100, "-");
-								} else {
-									editApplication(applicationList, ccaList, userList, attendanceList, approve, ccaID,
-											userID);
-								}
-
-							} else if (choice == 3) {
-								// BACK
-							} else {
-								Helper.line(100, "-");
-								System.out.println("Invalid option");
-								Helper.line(100, "-");
-							}
-						}
+						maintainApplication(userList, ccaList, attendanceList, applicationList, user_ID, role);
 
 					} else {
 						Helper.line(100, "-");
 						System.out.println("Invalid option");
 						Helper.line(100, "-");
+						
 					}
 				} else if (option == OPTION_DISPLAY_ATTENDANCE) {
 					
@@ -292,108 +107,15 @@ public class C206_CaseStudy {
 				} else if (option == OPTION_MAINTAIN_ATTENDANCE_OR_USER) {
 					if (role == "teacher" || role == "advisor") {
 						maintainAttendance(attendanceList, ccaList, userList);
+						
 					} else if (role == "admin") {
-
-						// MAINTAIN USER
-						displayUsers(userList);
-						Helper.line(100, "-");
-						System.out.println("1. Add User\n2. Delete User\n3. Edit User\n4. Back");
-						Helper.line(100, "-");
-						int choice = Helper.readInt("\nEnter your option > ");
-
-						if (choice == 1) {
-
-							int newUserId = Helper.readInt("Enter new User ID > ");
-							String newUsername = Helper.readString("Enter new User name > ");
-							String newPassword = Helper.readString("Enter new password > ");
-							String newRole = Helper.readString("Enter new role [student/teacher/advisor/admin] > ");
-
-							// CHECK IF NEW USER ID ALREADRY EXIST
-							boolean checkExistingUserId = checkExistingUserID(userList, newUserId);
-
-							boolean checkRole = false;
-							if (role.equals("student") || role.equals("teacher") || role.equals("advisor")
-									|| role.equals("admin")) {
-								checkRole = true;
-							}
-
-							// ADD IF ALL CHECKS PASSED
-							if (checkExistingUserId == true) {
-								Helper.line(100, "-");
-								System.out.println("User ID already exist. Please use another ID.");
-								Helper.line(100, "-");
-							} else if (checkRole == false) {
-								Helper.line(100, "-");
-								System.out.println("Incorrect role.");
-								Helper.line(100, "-");
-							} else {
-								addUser(userList, newUserId, newUsername, newPassword, newRole);
-							}
-
-						} else if (choice == 2) {
-
-							int userId = Helper.readInt("Enter User ID to delete > ");
-							String username = Helper.readString("Enter username to confirm > ");
-
-							// CHECK IF USER ID EXIST
-							boolean checkExistingUserId = checkExistingUserID(userList, userId);
-
-							// CHECK IF CCA NAME IS CORRECT
-							boolean checkExistingUsername = false;
-							for (int i = 0; i < userList.size(); i++) {
-								if (username.equalsIgnoreCase(userList.get(i).getName())) {
-									checkExistingUsername = true;
-								}
-							}
-
-							// DELETE CCA IF ALL CHECKS PASSED
-							if (checkExistingUserId == false) {
-								Helper.line(100, "-");
-								System.out.println("Invalid User ID");
-								Helper.line(100, "-");
-							} else if (checkExistingUsername == false) {
-								Helper.line(100, "-");
-								System.out.println("Invalid Username");
-								Helper.line(100, "-");
-							} else {
-								deleteUser(userList, userId, username);
-							}
-
-						} else if (choice == 3) {
-
-							int userId = Helper.readInt("Enter User ID to edit > ");
-							// CHECK IF CCA ID EXIST
-							boolean checkExistingUserId = checkExistingUserID(userList, userId);
-
-							// GET CCA POSITION
-							int position = 0;
-							if (checkExistingUserId == false) {
-								Helper.line(100, "-");
-								System.out.println("Invalid User ID");
-								Helper.line(100, "-");
-							} else {
-								for (int i = 0; i < userList.size(); i++) {
-									if (userId == userList.get(i).getUserID()) {
-										position = i;
-									}
-								}
-								System.out.println("1. User ID\n2. Username\n3. password\n4. Role\n5. CCA ID\n6. Back");
-								choice = Helper.readInt("\nEnter option to edit > ");
-								editUser(userList, ccaList, userId, position, choice);
-							}
-
-						} else if (choice == 4) {
-
-						} else {
-							Helper.line(100, "-");
-							System.out.println("Invalid option");
-							Helper.line(100, "-");
-						}
+						maintainUser(userList, ccaList, role);
 
 					} else {
 						Helper.line(100, "-");
 						System.out.println("Invalid option");
 						Helper.line(100, "-");
+						
 					}
 				} else if (option == OPTION_RELOGIN) {
 					Helper.line(100, "-");
@@ -412,12 +134,310 @@ public class C206_CaseStudy {
 					}
 				} else if (option == OPTION_QUIT) {
 					System.out.println("See you again!");
+					
 				} else {
 					Helper.line(100, "-");
 					System.out.println("Invalid option");
 					Helper.line(100, "-");
+					
 				}
 			}
+		}
+	}
+
+	private static void maintainUser(ArrayList<User> userList, ArrayList<CCA> ccaList, String role) {
+		// MAINTAIN USER
+		displayUsers(userList);
+		Helper.line(100, "-");
+		System.out.println("1. Add User\n2. Delete User\n3. Edit User\n4. Back");
+		Helper.line(100, "-");
+		int choice = Helper.readInt("\nEnter your option > ");
+
+		if (choice == 1) {
+
+			int newUserId = Helper.readInt("Enter new User ID > ");
+			String newUsername = Helper.readString("Enter new User name > ");
+			String newPassword = Helper.readString("Enter new password > ");
+			String newRole = Helper.readString("Enter new role [student/teacher/advisor/admin] > ");
+
+			// CHECK IF NEW USER ID ALREADRY EXIST
+			boolean checkExistingUserId = checkExistingUserID(userList, newUserId);
+
+			boolean checkRole = false;
+			if (role.equals("student") || role.equals("teacher") || role.equals("advisor")
+					|| role.equals("admin")) {
+				checkRole = true;
+			}
+
+			// ADD IF ALL CHECKS PASSED
+			if (checkExistingUserId == true) {
+				Helper.line(100, "-");
+				System.out.println("User ID already exist. Please use another ID.");
+				Helper.line(100, "-");
+			} else if (checkRole == false) {
+				Helper.line(100, "-");
+				System.out.println("Incorrect role.");
+				Helper.line(100, "-");
+			} else {
+				addUser(userList, newUserId, newUsername, newPassword, newRole);
+			}
+
+		} else if (choice == 2) {
+
+			int userId = Helper.readInt("Enter User ID to delete > ");
+			String username = Helper.readString("Enter username to confirm > ");
+
+			// CHECK IF USER ID EXIST
+			boolean checkExistingUserId = checkExistingUserID(userList, userId);
+
+			// CHECK IF CCA NAME IS CORRECT
+			boolean checkExistingUsername = false;
+			for (int i = 0; i < userList.size(); i++) {
+				if (username.equalsIgnoreCase(userList.get(i).getName())) {
+					checkExistingUsername = true;
+				}
+			}
+
+			// DELETE CCA IF ALL CHECKS PASSED
+			if (checkExistingUserId == false) {
+				Helper.line(100, "-");
+				System.out.println("Invalid User ID");
+				Helper.line(100, "-");
+			} else if (checkExistingUsername == false) {
+				Helper.line(100, "-");
+				System.out.println("Invalid Username");
+				Helper.line(100, "-");
+			} else {
+				deleteUser(userList, userId, username);
+			}
+
+		} else if (choice == 3) {
+
+			int userId = Helper.readInt("Enter User ID to edit > ");
+			// CHECK IF CCA ID EXIST
+			boolean checkExistingUserId = checkExistingUserID(userList, userId);
+
+			// GET CCA POSITION
+			int position = 0;
+			if (checkExistingUserId == false) {
+				Helper.line(100, "-");
+				System.out.println("Invalid User ID");
+				Helper.line(100, "-");
+			} else {
+				for (int i = 0; i < userList.size(); i++) {
+					if (userId == userList.get(i).getUserID()) {
+						position = i;
+					}
+				}
+				System.out.println("1. User ID\n2. Username\n3. password\n4. Role\n5. CCA ID\n6. Back");
+				choice = Helper.readInt("\nEnter option to edit > ");
+				editUser(userList, ccaList, userId, position, choice);
+			}
+
+		} else if (choice == 4) {
+
+		} else {
+			Helper.line(100, "-");
+			System.out.println("Invalid option");
+			Helper.line(100, "-");
+		}
+	}
+
+	private static void maintainApplication(ArrayList<User> userList, ArrayList<CCA> ccaList,
+			ArrayList<Attendance> attendanceList, ArrayList<Application> applicationList, int user_ID, String role) {
+		if (displayApplications(applicationList, user_ID, role) == true) {
+			Helper.line(100, "-");
+			System.out.println("1. Delete Application\n2. Set Application Approval\n3. Back");
+			Helper.line(100, "-");
+			int choice = Helper.readInt("\nEnter your option > ");
+
+			if (choice == 1) {
+				// DELETE APPLICATION
+				int ccaID = Helper.readInt("Enter application CCA ID > ");
+				int userID = Helper.readInt("Enter application user ID > ");
+
+				// CHECK INPUT FIELDS
+				boolean checkCcaId = checkExistingCcaID(ccaList, ccaID);
+				boolean checkUserId = checkExistingUserID(userList, userID);
+
+				// DELETE IF ALL CHECK PASSED
+				if (checkCcaId == false) {
+					Helper.line(100, "-");
+					System.out.println("Invalid CCA ID");
+					Helper.line(100, "-");
+				} else if (checkUserId == false) {
+					Helper.line(100, "-");
+					System.out.println("Invalid User ID");
+					Helper.line(100, "-");
+				} else {
+					deleteApplication(applicationList, ccaID, userID);
+				}
+			} else if (choice == 2) {
+				// APPROVE OR REJECT APPLICATION
+				int ccaID = Helper.readInt("Enter application CCA ID > ");
+				int userID = Helper.readInt("Enter application user ID > ");
+				int approve = Helper.readInt("Enter 0 to approve and 1 to reject > ");
+
+				// CHECK INPUT FIELDS
+				boolean checkCcaId = checkExistingCcaID(ccaList, ccaID);
+				boolean checkUserId = checkExistingUserID(userList, userID);
+
+				// UPDATE APPLICATION STATUS IF CHECKING FIELDS PASS
+				if (checkCcaId == false) {
+					Helper.line(100, "-");
+					System.out.println("Invalid CCA ID");
+					Helper.line(100, "-");
+				} else if (checkUserId == false) {
+					Helper.line(100, "-");
+					System.out.println("Invalid User ID");
+					Helper.line(100, "-");
+				} else {
+					editApplication(applicationList, ccaList, userList, attendanceList, approve, ccaID,
+							userID);
+				}
+
+			} else if (choice == 3) {
+				// BACK
+			} else {
+				Helper.line(100, "-");
+				System.out.println("Invalid option");
+				Helper.line(100, "-");
+			}
+		}
+	}
+
+	private static void maintainCCA(ArrayList<CCA> ccaList) {
+		displayCCA(ccaList);
+		Helper.line(100, "-");
+		System.out.println("1. Add CCA\n2. Delete CCA\n3. Edit CCA\n4. Back");
+		Helper.line(100, "-");
+		int choice = Helper.readInt("\nEnter your option > ");
+
+		if (choice == 1) {
+
+			int cca_ID = 1;
+			boolean getId = false;
+			ArrayList<Integer> ccaIds = new ArrayList<>();
+			for (int i = 0; i < ccaList.size(); i++) {
+				ccaIds.add(ccaList.get(i).getCcaID());
+			}
+
+			while (getId == false) {
+				if (ccaIds.contains(cca_ID)) {
+					cca_ID++;
+				} else {
+					getId = true;
+				}
+			}
+
+			String cca_name = Helper.readString("Enter new CCA name > ");
+			String desc = Helper.readString("Enter new CCA description > ");
+			String timeslot = Helper.readString(
+					"Enter new timeslot    Format=> day[spelled out]: [#][pm/am]-[#][pm/am] > ");
+
+			// CHECK IF NEW CCA ID IS VALID
+			boolean checkExistingCcaID = checkExistingCcaID(ccaList, cca_ID);
+
+			// CHECK IF NEW TIMESLOT IS VALID
+			boolean checkExistingTimeslot = checkExistingTimeslotAndName(ccaList, timeslot, cca_name);
+
+			// ADD IF ALL CHECKS PASSED
+			if (checkExistingCcaID == true) {
+				Helper.line(100, "-");
+				System.out.println("CCA ID already exist. Please use another ID.");
+				Helper.line(100, "-");
+			} else if (checkExistingTimeslot == true) {
+				Helper.line(100, "-");
+				System.out.println("Timeslot for the CCA already exist. Please enter another timeslot");
+				Helper.line(100, "-");
+			} else {
+				addCCA(ccaList, cca_ID, cca_name, desc, timeslot);
+			}
+		} else if (choice == 2) {
+			int cca_ID = Helper.readInt("Enter CCA ID to delete > ");
+			String cca_name = Helper.readString("Enter CCA name to confirm > ");
+			
+			// CHECK IF CCA ID EXIST
+			boolean checkExistingCcaID = checkExistingCcaID(ccaList, cca_ID);
+
+			// CHECK IF CCA NAME IS CORRECT
+			boolean checkExistingCcaName = checkExistingCcaName(ccaList, cca_name);
+			
+			// DELETE CCA IF ALL CHECKS PASSED
+			if (checkExistingCcaID == false) {
+				Helper.line(100, "-");
+				System.out.println("Invalid CCA ID");
+				Helper.line(100, "-");
+			} else if (checkExistingCcaName == false) {
+				Helper.line(100, "-");
+				System.out.println("Invalid CCA name");
+				Helper.line(100, "-");
+			} else {
+				deleteCCA(ccaList, cca_ID, cca_name);
+			}
+		} else if (choice == 3) {
+			int cca_ID = Helper.readInt("Enter CCA ID to edit > ");
+			
+			// CHECK IF CCA ID EXIST
+			boolean checkExistingCcaID = checkExistingCcaID(ccaList, cca_ID);
+			
+			// GET CCA POSITION
+			int position = 0;
+			if (checkExistingCcaID == false) {
+				Helper.line(100, "-");
+				System.out.println("Invalid CCA ID");
+				Helper.line(100, "-");
+			} else {
+				for (int i = 0; i < ccaList.size(); i++) {
+					if (cca_ID == ccaList.get(i).getCcaID()) {
+						position = i;
+					}
+				}
+			}
+			
+			// EDIT
+			System.out.println("1. CCA Name\n2. CCA Description\n3. Timeslot\n4. Back");
+			int edit = Helper.readInt("\nEnter option to edit > ");
+			editCCA(ccaList, edit, position);
+			
+		} else if (choice == 4) {
+			// BACK
+		} else {
+			Helper.line(100, "-");
+			System.out.println("Invalid option");
+			Helper.line(100, "-");
+		}
+	}
+
+	private static void applyCCA(ArrayList<User> userList, ArrayList<CCA> ccaList,
+			ArrayList<Application> applicationList, int user_ID) {
+		displayCCA(ccaList);
+		int ccaId = Helper.readInt("Enter CCA ID that you want to join > ");
+
+		// CHECK CCA ID IS CORRECT
+		boolean checkCCAID = checkExistingCcaID(ccaList, ccaId);
+
+		// CHECK EXISTING APPLICATION
+		boolean checkExistingApplication = checkExistingApplication(applicationList, user_ID, ccaId);
+
+		// CHECK NUMBER OF APPLICATION
+		int appliedCCAs = getAppliedCCA(applicationList, user_ID);
+		
+		// ADD APPLICATION IF ALL CHECKING STAGES PASSED
+		if (checkCCAID == false) {
+			Helper.line(100, "-");
+			System.out.println("Incorrect CCA ID");
+			Helper.line(100, "-");
+		} else if (checkExistingApplication == true) {
+			Helper.line(100, "-");
+			System.out.println("You have already applied for this CCA");
+			Helper.line(100, "-");
+		} else if (appliedCCAs == 2) {
+			Helper.line(100, "-");
+			System.out.println("You have applied for 2 CCas. Maximum application is 2.");
+			Helper.line(100, "-");
+		} else {
+			registerCCA(ccaList, userList, applicationList, user_ID, ccaId);
 		}
 	}
 
