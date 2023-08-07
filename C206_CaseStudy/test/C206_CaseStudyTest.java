@@ -66,7 +66,6 @@ public class C206_CaseStudyTest {
 		// Delete user
 		userList.remove(user1);
 		assertEquals("Test that deletion user will be shown correctly", 0, userList.size());
-		
 	}
 	
 	@Test
