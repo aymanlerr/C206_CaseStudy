@@ -110,6 +110,21 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
+	public void testDisplayAttendance() {
+		attendanceList = new ArrayList<>();
+		ccaList = new ArrayList<>();
+		
+		assertNotNull("Test arraylist is created", attendanceList);
+		assertNotNull("Test arraylist is created", ccaList);
+		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
+		assertEquals("Test that arraylist size is 0", 0, ccaList.size());
+		attendanceList.add(att1);
+		ccaList.add(cca1);
+		Boolean actual = C206_CaseStudy.displayAttendance(attendanceList, 1);
+		assertTrue("Test that attendance is displayed", actual);
+	}
+	
+	@Test
 	public void testAddUsers() {
 		int userId = 1;
 		String username = "Aiman";
