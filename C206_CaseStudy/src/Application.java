@@ -68,5 +68,6 @@ public class Application {
 		String output = "";
 		output = String.format("%-10d %-10s %-20s %-10d %-10s %-10s\n", cca_ID, cca_name, timeslot, user_ID, username, status);
 		return output;
+		
 	}
 }
