@@ -650,15 +650,7 @@ public class C206_CaseStudy {
 					System.out.println("Invalid User ID");
 					Helper.line(100, "-");
 				} else {
-					for (int i = 0; i < attendanceList.size(); i++) {
-						if (ccaID == attendanceList.get(i).getCca_ID()
-								&& userID == attendanceList.get(i).getUser_ID()) {
-							attendanceList.remove(i);
-							Helper.line(100, "-");
-							System.out.println("Application succesfully deleted");
-							Helper.line(100, "-");
-						}
-					}
+					deleteAttendance(attendanceList, ccaID, userID);
 				}
 				// SET ATTENDANCE
 			} else if (option == 2) {
@@ -706,21 +698,37 @@ public class C206_CaseStudy {
 					System.out.println("Invalid option");
 					Helper.line(100, "-");
 				} else {
-					for (int i = 0; i < attendanceList.size(); i++) {
-						if (ccaID == attendanceList.get(i).getCca_ID()
-								&& userID == attendanceList.get(i).getUser_ID()) {
-							attendanceList.get(i).setStatus(status);
-							Helper.line(100, "-");
-							System.out.println("Attendance succesfully updated");
-							Helper.line(100, "-");
-						}
-					}
+					editAttendance(attendanceList, ccaID, userID, status);
 				}
 			} else if (option == 3) {
 
 			}
 		}
 
+	}
+
+	private static void editAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID, String status) {
+		for (int i = 0; i < attendanceList.size(); i++) {
+			if (ccaID == attendanceList.get(i).getCca_ID()
+					&& userID == attendanceList.get(i).getUser_ID()) {
+				attendanceList.get(i).setStatus(status);
+				Helper.line(100, "-");
+				System.out.println("Attendance succesfully updated");
+				Helper.line(100, "-");
+			}
+		}
+	}
+
+	private static void deleteAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID) {
+		for (int i = 0; i < attendanceList.size(); i++) {
+			if (ccaID == attendanceList.get(i).getCca_ID()
+					&& userID == attendanceList.get(i).getUser_ID()) {
+				attendanceList.remove(i);
+				Helper.line(100, "-");
+				System.out.println("Application succesfully deleted");
+				Helper.line(100, "-");
+			}
+		}
 	}
 
 	// DISPLAY ATTENDANCE
