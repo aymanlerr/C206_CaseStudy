@@ -64,7 +64,7 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that the user arrayList is empty", 0, userList.size());
 		// Test Add user
 		C206_CaseStudy.addUser(userList, userId, username, password, role);
-		assertEquals("Test that arrayList increases size to 1", user1, userList.size());
+		assertEquals("Test that arrayList increases size to 1", 1, userList.size());
 	}
 	
 	@Test
