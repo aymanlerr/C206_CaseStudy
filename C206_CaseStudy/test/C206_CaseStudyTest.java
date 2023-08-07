@@ -78,25 +78,19 @@ public class C206_CaseStudyTest {
 		//new application arraylist
 		applicationList = new ArrayList<>();
 		
-		//test for existing application arraylist
 		//test for empty arraylist
 		assertNotNull("Test if there is any application arraylist to delete from", applicationList);
 		assertEquals("Test that arraylist is empty", 0, applicationList.size());
 		
 		//add item in arraylist
-		//test that applicationList is 1
-		//test that item is added in arraylist
 		applicationList.add(app1);
 		assertEquals("Test that arraylist size is 1", 1, applicationList.size());
 		assertSame("Test that application is added", app1, applicationList.get(0));
 		
 		//remove item in arraylist
-		//test that applicationList is 0
-		//test that item is removed from arraylist
-		applicationList.remove(app1);
+		C206_CaseStudy.deleteApplication(applicationList, 1, 1);
 		assertEquals("Test that arraylist size is 0", 0, applicationList.size());
 		
-		C206_CaseStudy.deleteApplication(applicationList, 1, 1);
 	}
 
 	@Test
