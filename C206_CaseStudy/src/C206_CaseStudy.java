@@ -501,7 +501,46 @@ public class C206_CaseStudy {
 			// EDIT
 			System.out.println("1. CCA Name\n2. CCA Description\n3. Timeslot\n4. Back");
 			int edit = Helper.readInt("\nEnter option to edit > ");
-			editCCA(ccaList, edit, position);
+			if (edit == 1) {
+				String newCcaName = Helper.readString("Enter new CCA Name > ");
+				
+				// CHECK TIMESLOT
+				boolean checkExistingTimeslot = checkExistingTimeslotAndName(ccaList, ccaList.get(position).getTimeslot(),
+						newCcaName);
+				
+				// UPDATE IF CHECKS PASSED
+				if (checkExistingTimeslot == true) {
+					Helper.line(100, "-");
+					System.out.println("CCA name with same timeslot already exist");
+					Helper.line(100, "-");
+				} else {
+					setCcaName(ccaList, position, newCcaName);
+				}
+			} else if (edit == 2) {
+				String newDesc = Helper.readString("Enter new CCA description > ");
+				setCcaDescription(ccaList, position, newDesc);
+
+				// CCA TIMESLOT
+			} else if (edit == 3) {
+				String newCcaTimeslot = Helper.readString("Enter new timeslot    Format=> day[spelled out]: [#][pm/am]-[#][pm/am] > ");
+
+				// CHECK TIMESLOT
+				boolean checkExistingTimeslot = checkExistingTimeslotAndName(ccaList, newCcaTimeslot,
+						ccaList.get(position).getCca_name());
+
+				// UPDATE IF CHECKS PASSED
+				if (checkExistingTimeslot == true) {
+					Helper.line(100, "-");
+					System.out.println("CCA name with same timeslot already exist");
+					Helper.line(100, "-");
+				} else {
+					setCcaTimeslot(ccaList, position, newCcaTimeslot);
+				}
+
+				// BACK
+			} else if (edit == 4) {
+
+			}
 
 		} else if (choice == 4) {
 			// BACK
@@ -510,6 +549,27 @@ public class C206_CaseStudy {
 			System.out.println("Invalid option");
 			Helper.line(100, "-");
 		}
+	}
+
+	private static void setCcaTimeslot(ArrayList<CCA> ccaList, int position, String newCcaTimeslot) {
+		ccaList.get(position).setTimeslot(newCcaTimeslot);
+		Helper.line(100, "-");
+		System.out.println("CCA name successfully updated");
+		Helper.line(100, "-");
+	}
+
+	private static void setCcaDescription(ArrayList<CCA> ccaList, int position, String newDesc) {
+		ccaList.get(position).setDesc(newDesc);
+		Helper.line(100, "-");
+		System.out.println("CCA description succesfully updated");
+		Helper.line(100, "-");
+	}
+
+	private static void setCcaName(ArrayList<CCA> ccaList, int position, String newCcaName) {
+		ccaList.get(position).setCca_name(newCcaName);
+		Helper.line(100, "-");
+		System.out.println("CCA name successfully updated");
+		Helper.line(100, "-");
 	}
 
 	public static void applyCCA(ArrayList<User> userList, ArrayList<CCA> ccaList,
@@ -921,58 +981,6 @@ public class C206_CaseStudy {
 			}
 		}
 		return false;
-	}
-
-	public static void editCCA(ArrayList<CCA> ccaList, int choice, int position) {
-		if (choice == 1) {
-			String newCcaName = Helper.readString("Enter new CCA Name > ");
-
-			// CHECK TIMESLOT
-			boolean checkExistingTimeslot = checkExistingTimeslotAndName(ccaList, ccaList.get(position).getTimeslot(),
-					newCcaName);
-
-			// UPDATE IF CHECKS PASSED
-			if (checkExistingTimeslot == true) {
-				Helper.line(100, "-");
-				System.out.println("CCA name with same timeslot already exist");
-				Helper.line(100, "-");
-			} else {
-				ccaList.get(position).setCca_name(newCcaName);
-				Helper.line(100, "-");
-				System.out.println("CCA name successfully updated");
-				Helper.line(100, "-");
-			}
-
-			// CCA DESC
-		} else if (choice == 2) {
-			String newDesc = Helper.readString("Enter new CCA description > ");
-			ccaList.get(position).setDesc(newDesc);
-
-			// CCA TIMESLOT
-		} else if (choice == 3) {
-			String newCcaTimeslot = Helper
-					.readString("Enter new timeslot    Format=> day[spelled out]: [#][pm/am]-[#][pm/am] > ");
-
-			// CHECK TIMESLOT
-			boolean checkExistingTimeslot = checkExistingTimeslotAndName(ccaList, newCcaTimeslot,
-					ccaList.get(position).getCca_name());
-
-			// UPDATE IF CHECKS PASSED
-			if (checkExistingTimeslot == true) {
-				Helper.line(100, "-");
-				System.out.println("CCA name with same timeslot already exist");
-				Helper.line(100, "-");
-			} else {
-				ccaList.get(position).setTimeslot(newCcaTimeslot);
-				Helper.line(100, "-");
-				System.out.println("CCA name successfully updated");
-				Helper.line(100, "-");
-			}
-
-			// BACK
-		} else if (choice == 4) {
-
-		}
 	}
 
 	public static void deleteCCA(ArrayList<CCA> ccaList, int cca_ID, String cca_name) {
