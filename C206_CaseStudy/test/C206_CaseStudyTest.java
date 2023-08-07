@@ -150,6 +150,7 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that user that set CCA id set correctly", 1, userList.get(0).getCca_ID());
 	}
 	
+	
 	public void testAddApplication() {
 		//Create new application, cca, and user arraylist
 		applicationList = new ArrayList<>();
