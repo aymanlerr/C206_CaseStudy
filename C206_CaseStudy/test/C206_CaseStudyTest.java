@@ -205,6 +205,37 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that new username has been set", newUsername, userList.get(0).getName());
 	}
 	
+	@Test 
+	public void testSetUserId() {
+		userList = new ArrayList<>();
+		
+		assertNotNull("Test that there is a valid arrayList to add to", userList);
+		
+		//add user
+		userList.add(user1);
+		assertEquals("Test that user arrayList increases size to 1", 1, userList.size());
+		//set new user id
+		int newId = 6;
+		C206_CaseStudy.setUserId(userList, 0, newId);
+		assertEquals("Test that new user id is updated", newId, userList.get(0).getUserID());
+	}
+	
+	@Test
+	public void testUserRole() {
+		userList = new ArrayList<>();
+		
+		assertNotNull("Test that there is a valid arrayList to add to", userList);
+		
+		//add user
+		userList.add(user1);
+		assertEquals("Test that user arrayList increases size to 1", 1, userList.size());
+		//set new user role
+		String newRole = "teacher";
+		C206_CaseStudy.setUserRole(userList,0, newRole);
+		assertEquals("Test that new user role has been set",newRole,userList.get(0).getRole());
+	}
+	
+	@Test
 	public void testAddApplication() {
 		//Create new application, cca, and user arraylist
 		applicationList = new ArrayList<>();
