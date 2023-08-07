@@ -121,6 +121,7 @@ public class C206_CaseStudyTest {
 		String username = "Aiman";
 		String password = "1";
 		String role = "student";
+		userList = new ArrayList<>();
 		
 		assertNotNull("Test that there is a valid arryaList to add to", userList);
 		
@@ -138,6 +139,7 @@ public class C206_CaseStudyTest {
 		String username = "Aiman";
 		String password = "1";
 		String role = "student";
+		userList = new ArrayList<>();
 		
 		assertNotNull("Test that there is a valid arryaList to add to", userList);
 		
