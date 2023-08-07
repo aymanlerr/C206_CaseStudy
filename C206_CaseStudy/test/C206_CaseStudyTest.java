@@ -243,6 +243,11 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.setCcaName(ccaList, 0, "Volleyball");
 		assertEquals("Test that the editted CCA Name is shown correctly", "Volleyball", ccaList.get(0).getCca_name());
 		
+		C206_CaseStudy.setCcaTimeslot(ccaList, 0, "Tuesday: 4pm-6pm");
+		assertEquals("Test that the editted CCA timeslot is shown correctly", "Tuesday: 4pm-6pm", ccaList.get(0).getTimeslot());
+		
+		C206_CaseStudy.setCcaDescription(ccaList, 0, "Have fun playing volleyball in this CCA!");
+		assertEquals("Test that the editted CCA description is shown correctly", "Have fun playing volleyball in this CCA!", ccaList.get(0).getDesc());
 	}
 	
 	@Test
