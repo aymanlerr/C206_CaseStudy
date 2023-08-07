@@ -19,6 +19,8 @@ public class C206_CaseStudyTest {
 	
 	private Application app1;
 	
+	private Attendance att1;
+	
 	private ArrayList<User> userList = new ArrayList<>();
 	private ArrayList<CCA> ccaList = new ArrayList<>();
 	private ArrayList<Application> applicationList = new ArrayList<>();
@@ -36,6 +38,8 @@ public class C206_CaseStudyTest {
 		user3 = new User(3, "kedongdong", "3", "admin");
 		user4 = new User(4, "Liam", "4", "student");
 		user5 = new User(5, "Amran", "5", "student");
+		
+		att1 = (new Attendance(1, "Soccer", "Monday: 4pm-9pm", 1, "Aiman","" ));
 		
 	
 		cca1 = (new CCA(1, "Soccer", "Have fun playing soccer in this CCA!", "Wednesday: 4pm-6pm"));
@@ -77,6 +81,18 @@ public class C206_CaseStudyTest {
 		boolean output = C206_CaseStudy.displayApplications(applicationList, userList.get(0).getUserID(), userList.get(0).getRole());
 		assertTrue("Test that the output shows all applications", output);
 
+	}
+	
+	@Test
+	public void testDeleteAttendance() {
+		attendanceList = new ArrayList<>();
+		assertNotNull("Test arraylist is created", attendanceList);
+		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
+		attendanceList.add(att1);
+		assertEquals("Test that arraylist size is 1", 1, attendanceList.size());
+		C206_CaseStudy.deleteAttendance(attendanceList, 1, 1);
+		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
+		
 	}
 	
 	@Test
