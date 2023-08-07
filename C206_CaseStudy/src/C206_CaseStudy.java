@@ -551,21 +551,21 @@ public class C206_CaseStudy {
 		}
 	}
 
-	private static void setCcaTimeslot(ArrayList<CCA> ccaList, int position, String newCcaTimeslot) {
+	public static void setCcaTimeslot(ArrayList<CCA> ccaList, int position, String newCcaTimeslot) {
 		ccaList.get(position).setTimeslot(newCcaTimeslot);
 		Helper.line(100, "-");
 		System.out.println("CCA name successfully updated");
 		Helper.line(100, "-");
 	}
 
-	private static void setCcaDescription(ArrayList<CCA> ccaList, int position, String newDesc) {
+	public static void setCcaDescription(ArrayList<CCA> ccaList, int position, String newDesc) {
 		ccaList.get(position).setDesc(newDesc);
 		Helper.line(100, "-");
 		System.out.println("CCA description succesfully updated");
 		Helper.line(100, "-");
 	}
 
-	private static void setCcaName(ArrayList<CCA> ccaList, int position, String newCcaName) {
+	public static void setCcaName(ArrayList<CCA> ccaList, int position, String newCcaName) {
 		ccaList.get(position).setCca_name(newCcaName);
 		Helper.line(100, "-");
 		System.out.println("CCA name successfully updated");

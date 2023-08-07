@@ -206,7 +206,9 @@ public class C206_CaseStudyTest {
 		ccaList = new ArrayList<>();
 		ccaList.add(cca3);
 		
-		C206_CaseStudy.editCCA(ccaList, 0, 0);;
+		C206_CaseStudy.setCcaName(ccaList, 0, "Volleyball");
+		assertEquals("Test that the editted CCA Name is shown correctly", "Volleyball", ccaList.get(0).getCca_name());
+		
 	}
 	
 	@Test
