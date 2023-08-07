@@ -58,29 +58,29 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
-	public void testMaintainUsers() {
-		C206_CaseStudy.maintainUsers(userList,ccaList);
-		// Add user
-		userList.add(user1);
-		assertEquals("Test that infomation are submitted correctly", user1, userList.get(0));
-		// Edit user
-		String newName = "John";
-		userList.get(0).setName(newName);
-		assertEquals("Test that editing of user info will be shown correctly", userList.get(0).getName(), newName);
-		// Delete user
-		userList.remove(user1);
-		assertEquals("Test that deletion user will be shown correctly", 0, userList.size());
+	public void testAddUsers() {
+		int userId = 1;
+		String username = "Aiman";
+		String password = "1";
+		String role = "student";
 		
+		userList = new ArrayList<>();
+		
+		assertNotNull("Test if there is valid user arrayList to add to", userList);
+		assertEquals("Test that the user arrayList is empty", 0, userList.size());
+		// Test Add user
+		C206_CaseStudy.addUser(userList, userId, username, password, role);
+		assertEquals("Test that arrayList increases size to 1", 1, userList.size());
 	}
 	
 	@Test
-	public void testDeleteApproval() {
-		//new approval arraylist
+	public void testDeleteApplication() {
+		//new application arraylist
 		applicationList = new ArrayList<>();
 		
-		//test for existing approval arraylist
+		//test for existing application arraylist
 		//test for empty arraylist
-		assertNotNull("Test if there is any approval arraylist to delete from", applicationList);
+		assertNotNull("Test if there is any application arraylist to delete from", applicationList);
 		assertEquals("Test that arraylist is empty", 0, applicationList.size());
 		
 		//add item in arraylist
@@ -123,9 +123,30 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that the size of attendance list is 0", 0, attendanceList.size());
 	}
 	
+	@Test
+	public void testAddApproval() {
+		//new application arraylist
+		applicationList = new ArrayList<>();
+		
+		//test for existing application arraylist
+		//test for empty arraylist
+		assertNotNull("Test if there is any application arraylist to delete from", applicationList);
+		assertEquals("Test that arraylist is empty", 0, applicationList.size());
+		
+		//add application to maintain
+		applicationList.add(app1);
+		
+		//test that applicationList is 1 (contains application)
+		//test that changes made to application is reflected
+		String newStatus = "Approval";
+		applicationList.get(0).setStatus(newStatus);
+		assertEquals("Test that changes that are made to an application’s status is reflected in the database accurately", applicationList.get(0).getStatus(), newStatus);
+	}
+	
 	
 @After
 	public void tearDown() throws Exception {
 	}
+
 
 }
