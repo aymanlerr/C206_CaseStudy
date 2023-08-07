@@ -135,23 +135,51 @@ public class C206_CaseStudyTest {
 	
 	@Test
 	public void testSetUserCcaId() {
-		int userId = 1;
-		String username = "Aiman";
-		String password = "1";
-		String role = "student";
 		userList = new ArrayList<>();
 		
 		assertNotNull("Test that there is a valid arryaList to add to", userList);
 		
 		//add user
-		C206_CaseStudy.addUser(userList, userId, username, password, role);
+		userList.add(user1);
 		assertEquals("Test that user arrayList increases size to 1", 1, userList.size());
-		//check that ccaId is -1
+		//check that ccaId not set
 		assertEquals("Test that user CCA id is -1", -1, userList.get(0).getCca_ID());
 		//set User CCA Id
 		C206_CaseStudy.setUserCcaId(userList, 0, 1);
 		assertEquals("Test that user that set CCA id set correctly", 1, userList.get(0).getCca_ID());
 	}
+	
+	@Test
+	public void testSetPassword() {
+		userList = new ArrayList<>();
+		
+		assertNotNull("Test that there is a valid arrayList to add to", userList);
+		
+		//add user
+		userList.add(user1);
+		assertEquals("Test that user arrayList increases size to 1", 1, userList.size());
+		//set new user password
+		String newPassword = "123";
+		C206_CaseStudy.setPassword(userList, 0, newPassword);
+		assertEquals("Test that new password has been set", newPassword, userList.get(0).getPassword());
+
+	}
+	
+	@Test
+	public void testSetUsername() {
+		userList = new ArrayList<>();
+		
+		assertNotNull("Test that there is a valid arrayList to add to", userList);
+		
+		//add user
+		userList.add(user1);
+		assertEquals("Test that user arrayList increases size to 1", 1, userList.size());
+		//set new username
+		String newUsername = "Jaymi";
+		C206_CaseStudy.setUsername(userList, 0, newUsername);
+		assertEquals("Test that new username has been set", newUsername, userList.get(0).getName());
+	}
+	
 	
 	public void testAddApplication() {
 		//Create new application, cca, and user arraylist
