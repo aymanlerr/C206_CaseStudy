@@ -312,42 +312,42 @@ public class C206_CaseStudy {
 		}
 	}
 
-	private static void setUserCcaId(ArrayList<User> userList, int position, int newCcaId) {
+	public static void setUserCcaId(ArrayList<User> userList, int position, int newCcaId) {
 		userList.get(position).setCca_ID(newCcaId);
 		Helper.line(100, "-");
 		System.out.println("CCA ID successfully updated");
 		Helper.line(100, "-");
 	}
 
-	private static void setPassword(ArrayList<User> userList, int position, String newPassword) {
+	public static void setPassword(ArrayList<User> userList, int position, String newPassword) {
 		userList.get(position).setPassword(newPassword);
 		Helper.line(100, "-");
 		System.out.println("User password successfully updated");
 		Helper.line(100, "-");
 	}
 
-	private static void setUsername(ArrayList<User> userList, int position, String newUsername) {
+	public static void setUsername(ArrayList<User> userList, int position, String newUsername) {
 		userList.get(position).setName(newUsername);
 		Helper.line(100, "-");
 		System.out.println("Username successfully updated");
 		Helper.line(100, "-");
 	}
 
-	private static void setUserId(ArrayList<User> userList, int position, int newUserId) {
+	public static void setUserId(ArrayList<User> userList, int position, int newUserId) {
 		userList.get(position).setUserID(newUserId);
 		Helper.line(100, "-");
 		System.out.println("User ID successfully updated");
 		Helper.line(100, "-");
 	}
 
-	private static void setUserRole(ArrayList<User> userList, int position, String newRole) {
+	public static void setUserRole(ArrayList<User> userList, int position, String newRole) {
 		userList.get(position).setRole(newRole);
 		Helper.line(100, "-");
 		System.out.println("Role successfully updated");
 		Helper.line(100, "-");
 	}
 
-	private static void maintainApplication(ArrayList<User> userList, ArrayList<CCA> ccaList,
+	public static void maintainApplication(ArrayList<User> userList, ArrayList<CCA> ccaList,
 			ArrayList<Attendance> attendanceList, ArrayList<Application> applicationList, int user_ID, String role) {
 		if (displayApplications(applicationList, user_ID, role) == true) {
 			Helper.line(100, "-");
@@ -409,7 +409,7 @@ public class C206_CaseStudy {
 		}
 	}
 
-	private static void maintainCCA(ArrayList<CCA> ccaList) {
+	public static void maintainCCA(ArrayList<CCA> ccaList) {
 		displayCCA(ccaList);
 		Helper.line(100, "-");
 		System.out.println("1. Add CCA\n2. Delete CCA\n3. Edit CCA\n4. Back");
@@ -512,7 +512,7 @@ public class C206_CaseStudy {
 		}
 	}
 
-	private static void applyCCA(ArrayList<User> userList, ArrayList<CCA> ccaList,
+	public static void applyCCA(ArrayList<User> userList, ArrayList<CCA> ccaList,
 			ArrayList<Application> applicationList, int user_ID) {
 		displayCCA(ccaList);
 		int ccaId = Helper.readInt("Enter CCA ID that you want to join > ");
