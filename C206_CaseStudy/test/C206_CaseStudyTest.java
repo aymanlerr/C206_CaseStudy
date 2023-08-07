@@ -54,6 +54,32 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
+	public void testViewApplications() {
+		//Create new application and user arraylist
+		applicationList = new ArrayList<>();
+		userList = new ArrayList<>();
+		
+		//Test that arraylists exist and are empty
+		//Add application and user into their new respective arraylist
+		//Test that application and user has now been added into their arraylists
+		assertNotNull("Test if there is a valid application arraylist to display", applicationList);
+		assertNotNull("Test if there is a valid application arraylist to display", userList);
+		assertEquals("Test that the application arraylist is empty", 0, applicationList.size());
+		assertEquals("Test that the application arraylist is empty", 0, userList.size());
+		applicationList.add(app1);
+		//adding teacher user and admin user 
+		userList.add(user2); //teacher
+		userList.add(user3); //admin
+		assertEquals("Test that arrayList has increased due to new application", 1, applicationList.size());
+		assertEquals("Test that arrayList has increased due to new users", 2, userList.size());
+		
+		//Test that teacher user can view all applications
+		boolean output = C206_CaseStudy.displayApplications(applicationList, userList.get(0).getUserID(), userList.get(0).getRole());
+		assertTrue("Test that the output shows all applications", output);
+
+	}
+	
+	@Test
 	public void testAddUsers() {
 		//define user details
 		int userId = 1;
