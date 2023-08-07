@@ -94,6 +94,42 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that arrayList increases size to 1", 1, userList.size());
 	}
 	
+	@Test
+	public void testDeleteUser() {
+		int userId = 1;
+		String username = "Aiman";
+		String password = "1";
+		String role = "student";
+		
+		assertNotNull("Test that there is a valid arryaList to add to", userList);
+		
+		//add user
+		C206_CaseStudy.addUser(userList, userId, username, password, role);
+		assertEquals("Test that user arrayList increases size to 1", 1, userList.size());
+		//delete user
+		C206_CaseStudy.deleteUser(userList, userId, username);
+		assertEquals("Test that user arrayList decreases size to 0", 0, userList.size());
+	}
+	
+	@Test
+	public void testSetUserCcaId() {
+		int userId = 1;
+		String username = "Aiman";
+		String password = "1";
+		String role = "student";
+		
+		assertNotNull("Test that there is a valid arryaList to add to", userList);
+		
+		//add user
+		C206_CaseStudy.addUser(userList, userId, username, password, role);
+		assertEquals("Test that user arrayList increases size to 1", 1, userList.size());
+		//check that ccaId is -1
+		assertEquals("Test that user CCA id is -1", -1, userList.get(0).getCca_ID());
+		//set User CCA Id
+		C206_CaseStudy.setUserCcaId(userList, 0, 1);
+		assertEquals("Test that user that set CCA id set correctly", 1, userList.get(0).getCca_ID());
+	}
+	
 	public void testAddApplication() {
 		//Create new application, cca, and user arraylist
 		applicationList = new ArrayList<>();
