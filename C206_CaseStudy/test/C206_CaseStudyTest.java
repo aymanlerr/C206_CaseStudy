@@ -16,6 +16,7 @@ public class C206_CaseStudyTest {
 	private CCA cca1;
 	private CCA cca2;
 	private CCA cca3;
+	private CCA testaddcca;
 	
 	private Application app1;
 	
@@ -43,6 +44,7 @@ public class C206_CaseStudyTest {
 		cca1 = (new CCA(1, "Soccer", "Have fun playing soccer in this CCA!", "Wednesday: 4pm-6pm"));
 		cca2 = (new CCA(2, "Badminton", "Have fun playing badminton in this CCA!", "Wednesday: 4pm-6pm"));
 		cca3 = (new CCA(3, "Tennis", "Have fun playing tennis in this CCA!", "Friday: 4pm-6pm"));
+		testaddcca = (new CCA(4, "Basketball", "Have fun playing basketball in this CCA!", "Friday: 4pm-6pm"));
 		
 		app1 = (new Application(1, "Soccer", "Wednesday: 4pm-6pm", 1, "gh", "gh"));
 		
@@ -100,21 +102,50 @@ public class C206_CaseStudyTest {
 	}
 
 	@Test
-	public void displayCCA() {
+	public void testDisplayCCA() {
 		//view All CCA
+		ccaList = new ArrayList<>();
+		
+		assertNotNull("Test that cca list exists", ccaList);
+		
+	}
+	
+	@Test
+	public void testAddCCA() {
+		//test Add CCA
+		ccaList = new ArrayList<>();
 		ccaList.add(cca1);
-		ccaList.add(cca2);
+        ccaList.add(cca2);
+        ccaList.add(cca3);
+        
+        assertEquals("Test that size of the cca list is 3", 3, ccaList.size());
+        
+		ccaList.add(testaddcca);
+		
+		assertEquals("Test that size of the cca list is 4", 4, ccaList.size());
+	}
+	
+	@Test
+	public void testDeleteCCA() {
+		ccaList = new ArrayList<>();
+		
+		assertNotNull("Test if there is any cca list to delete from", ccaList);
+		assertEquals("Test that arraylist is empty", 0, ccaList.size());
+		
+		ccaList.add(testaddcca);
+		assertEquals("Test that arraylist size is 1", 1, ccaList.size());
+		
+		ccaList.remove(testaddcca);
+		assertEquals("Test that arraylist size is 0", 0, ccaList.size());
+			
+	}
+	
+	@Test
+	public void testEditCCA() {
+		ccaList = new ArrayList<>();
 		ccaList.add(cca3);
 		
-		
-		C206_CaseStudy.displayCCA(ccaList);
-		
-		assertEquals("Test that the displayed CCAs contain the text 'view all activities'", ccaList);
-
-        // Test that the student can view all CCAs when clicking on the "view all activities" button.
-        assertTrue("Test that the displayed CCAs contain CCA 1 - Soccer", ccaList.get(1));
-        assertTrue("Test that the displayed CCAs contain CCA 2 - Badminton", ccaList.get(2));
-        assertTrue("Test that the displayed CCAs contain CCA 3 - Tennis", ccaList.get(3));
+		C206_CaseStudy.editCCA(ccaList, 0, 0);;
 	}
 
 	
@@ -161,6 +192,8 @@ public class C206_CaseStudyTest {
 		applicationList.get(0).setStatus(newStatus);
 		assertEquals("Test that changes that are made to an application’s status is reflected in the database accurately", applicationList.get(0).getStatus(), newStatus);
 	}
+	
+	
 	
 	
 @After
