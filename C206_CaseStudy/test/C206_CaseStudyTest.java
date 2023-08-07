@@ -21,7 +21,7 @@ public class C206_CaseStudyTest {
 	
 	private ArrayList<User> userList;
 	private ArrayList<CCA> ccaList;
-	private ArrayList<Application> applicationList;
+	private ArrayList<Application> applicationList = new ArrayList<>();
 	private ArrayList<Attendance> attendanceList;
 
 	
@@ -42,7 +42,7 @@ public class C206_CaseStudyTest {
 		cca2 = (new CCA(2, "Badminton", "Have fun playing badminton in this CCA!", "Wednesday: 4pm-6pm"));
 		cca3 = (new CCA(3, "Tennis", "Have fun playing tennis in this CCA!", "Friday: 4pm-6pm"));
 		
-		app1 = (new Application(1, "Soccer", "Wednesday: 4pm-6pm", 1, "gh", "gh"));
+		app1 = (new Application(1, "Soccer", "Wednesday: 4pm-6pm", 1, "Aiman", "approved"));
 		
 	}
 
@@ -71,9 +71,7 @@ public class C206_CaseStudyTest {
 	
 	@Test
 	public void testDeleteApproval() {
-		//new approval arraylist
-		applicationList = new ArrayList<>();
-		
+	
 		//test for existing approval arraylist
 		//test for empty arraylist
 		assertNotNull("Test if there is any approval arraylist to delete from", applicationList);
@@ -89,11 +87,11 @@ public class C206_CaseStudyTest {
 		//remove item in arraylist
 		//test that applicationList is 0
 		//test that item is removed from arraylist
-		applicationList.remove(app1);
+		C206_CaseStudy.deleteApplication(applicationList, 1, 1);
 		assertEquals("Test that arraylist size is 0", 0, applicationList.size());
 		
-		C206_CaseStudy.deleteApplication(applicationList, 1, 1);
 	}
+
 @After
 	public void tearDown() throws Exception {
 	}
