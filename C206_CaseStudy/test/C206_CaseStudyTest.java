@@ -100,6 +100,31 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
+	public void testSetAttendance() {
+		attendanceList = new ArrayList<>();
+		assertNotNull("Test arraylist is created", attendanceList);
+		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
+		attendanceList.add(att1);
+		C206_CaseStudy.editAttendance(attendanceList, 1, 1, "rejected");
+		assertSame("Test that status is update", "rejected", attendanceList.get(0).getStatus());
+	}
+	
+	@Test
+	public void testDisplayAttendance() {
+		attendanceList = new ArrayList<>();
+		ccaList = new ArrayList<>();
+		
+		assertNotNull("Test arraylist is created", attendanceList);
+		assertNotNull("Test arraylist is created", ccaList);
+		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
+		assertEquals("Test that arraylist size is 0", 0, ccaList.size());
+		attendanceList.add(att1);
+		ccaList.add(cca1);
+		Boolean actual = C206_CaseStudy.displayAttendance(attendanceList, 1);
+		assertTrue("Test that attendance is displayed", actual);
+	}
+	
+	@Test
 	public void testAddUsers() {
 		int userId = 1;
 		String username = "Aiman";
@@ -179,7 +204,6 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.setUsername(userList, 0, newUsername);
 		assertEquals("Test that new username has been set", newUsername, userList.get(0).getName());
 	}
-	
 	
 	public void testAddApplication() {
 		//Create new application, cca, and user arraylist
@@ -273,6 +297,11 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.setCcaName(ccaList, 0, "Volleyball");
 		assertEquals("Test that the editted CCA Name is shown correctly", "Volleyball", ccaList.get(0).getCca_name());
 		
+		C206_CaseStudy.setCcaTimeslot(ccaList, 0, "Tuesday: 4pm-6pm");
+		assertEquals("Test that the editted CCA timeslot is shown correctly", "Tuesday: 4pm-6pm", ccaList.get(0).getTimeslot());
+		
+		C206_CaseStudy.setCcaDescription(ccaList, 0, "Have fun playing volleyball in this CCA!");
+		assertEquals("Test that the editted CCA description is shown correctly", "Have fun playing volleyball in this CCA!", ccaList.get(0).getDesc());
 	}
 	
 	@Test
