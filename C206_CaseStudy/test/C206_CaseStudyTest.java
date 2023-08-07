@@ -100,6 +100,31 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
+	public void testSetAttendance() {
+		attendanceList = new ArrayList<>();
+		assertNotNull("Test arraylist is created", attendanceList);
+		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
+		attendanceList.add(att1);
+		C206_CaseStudy.editAttendance(attendanceList, 1, 1, "rejected");
+		assertSame("Test that status is update", "rejected", attendanceList.get(0).getStatus());
+	}
+	
+	@Test
+	public void testDisplayAttendance() {
+		attendanceList = new ArrayList<>();
+		ccaList = new ArrayList<>();
+		
+		assertNotNull("Test arraylist is created", attendanceList);
+		assertNotNull("Test arraylist is created", ccaList);
+		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
+		assertEquals("Test that arraylist size is 0", 0, ccaList.size());
+		attendanceList.add(att1);
+		ccaList.add(cca1);
+		Boolean actual = C206_CaseStudy.displayAttendance(attendanceList, 1);
+		assertTrue("Test that attendance is displayed", actual);
+	}
+	
+	@Test
 	public void testAddUsers() {
 		int userId = 1;
 		String username = "Aiman";
@@ -121,6 +146,7 @@ public class C206_CaseStudyTest {
 		String username = "Aiman";
 		String password = "1";
 		String role = "student";
+		userList = new ArrayList<>();
 		
 		assertNotNull("Test that there is a valid arryaList to add to", userList);
 		
@@ -138,6 +164,7 @@ public class C206_CaseStudyTest {
 		String username = "Aiman";
 		String password = "1";
 		String role = "student";
+		userList = new ArrayList<>();
 		
 		assertNotNull("Test that there is a valid arryaList to add to", userList);
 		

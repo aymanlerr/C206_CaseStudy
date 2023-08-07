@@ -93,7 +93,7 @@ public class C206_CaseStudy {
 				} else if (option == OPTION_DISPLAY_ATTENDANCE) {
 
 					if (role == "teacher" || role == "advisor") {
-						displayAttendance(attendanceList, ccaList);
+						checkAttendance(attendanceList, ccaList);
 
 					} else if (role == "admin") {
 						displayUsers(userList);
@@ -688,7 +688,7 @@ public class C206_CaseStudy {
 
 	public static void maintainAttendance(ArrayList<Attendance> attendanceList, ArrayList<CCA> ccaList,
 			ArrayList<User> userList) {
-		if (displayAttendance(attendanceList, ccaList) == true) {
+		if (checkAttendance(attendanceList, ccaList) == true) {
 			Helper.line(100, "-");
 			System.out.println("1. Delete Attendance\n2. Set Attendance\n3. Back");
 			Helper.line(100, "-");
@@ -805,7 +805,7 @@ public class C206_CaseStudy {
 	}
 
 	// DISPLAY ATTENDANCE
-	public static boolean displayAttendance(ArrayList<Attendance> attendanceList, ArrayList<CCA> ccaList) {
+	public static boolean checkAttendance(ArrayList<Attendance> attendanceList, ArrayList<CCA> ccaList) {
 		// CCA ATTENDANCE AVAILABLE
 		Helper.line(100, "-");
 		System.out.println(String.format("%50s", "CCA ATTENDANCE LIST"));
@@ -853,17 +853,22 @@ public class C206_CaseStudy {
 				System.out.println(String.format("%-10s %-10s %-25s %-10s %-10s %-10s", "CCA ID", "CCA NAME",
 						"TIMESLOT", "USER ID", "USERNAME", "STATUS"));
 				Helper.line(100, "-");
-				output = "";
-				for (int i = 0; i < attendanceList.size(); i++) {
-					if (ccaChoice == attendanceList.get(i).getCca_ID()) {
-						output += attendanceList.get(i).display();
-					}
-				}
-				System.out.println(output);
-				return true;
+				return displayAttendance(attendanceList, ccaChoice);
 			}
 		}
 
+	}
+
+	public static boolean displayAttendance(ArrayList<Attendance> attendanceList, int ccaChoice) {
+		String output;
+		output = "";
+		for (int i = 0; i < attendanceList.size(); i++) {
+			if (ccaChoice == attendanceList.get(i).getCca_ID()) {
+				output += attendanceList.get(i).display();
+			}
+		}
+		System.out.println(output);
+		return true;
 	}
 
 	public static void displayUsers(ArrayList<User> userList) {
