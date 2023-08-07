@@ -374,7 +374,7 @@ public class C206_CaseStudy {
 					System.out.println("Invalid User ID");
 					Helper.line(100, "-");
 				} else {
-					deleteApplication(applicationList, ccaID, userID);
+					deleteApplication(applicationList, attendanceList, ccaID, userID);
 				}
 			} else if (choice == 2) {
 				// APPROVE OR REJECT APPLICATION
@@ -1073,10 +1073,11 @@ public class C206_CaseStudy {
 		}
 	}
 
-	public static void deleteApplication(ArrayList<Application> applicationList, int ccaID, int userID) {
+	public static void deleteApplication(ArrayList<Application> applicationList, ArrayList<Attendance> attendanceList, int ccaID, int userID) {
 		for (int i = 0; i < applicationList.size(); i++) {
 			if (ccaID == applicationList.get(i).getCca_ID() && userID == applicationList.get(i).getUser_ID()) {
 				applicationList.remove(i);
+				attendanceList.remove(i);
 				Helper.line(100, "-");
 				System.out.println("Application succesfully deleted");
 				Helper.line(100, "-");
