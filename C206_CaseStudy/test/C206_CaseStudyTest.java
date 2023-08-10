@@ -100,7 +100,7 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
-	public void testSetAttendance() {
+	public void testAddAttendance() {
 		attendanceList = new ArrayList<>();
 		assertNotNull("Test arraylist is created", attendanceList);
 		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
