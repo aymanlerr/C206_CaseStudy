@@ -218,7 +218,7 @@ public class C206_CaseStudyTest {
 	
 	@Test 
 	public void testSetUserId() {
-		userList = new ArrayList<>();
+		userList = new	 ArrayList<>();
 		
 		assertNotNull("Test that there is a valid arrayList to add to", userList);
 		
