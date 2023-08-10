@@ -218,7 +218,7 @@ public class C206_CaseStudyTest {
 	
 	@Test 
 	public void testSetUserId() {
-		userList = new	 ArrayList<>();
+		userList = new ArrayList<>();
 		
 		assertNotNull("Test that there is a valid arrayList to add to", userList);
 		
@@ -247,15 +247,7 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
-	public void testDisplayUsers() {
-		userList = new ArrayList<>();
-		
-		assertNotNull("Test that user list exists", userList);
-		
-	}
-	
-	@Test
-	public void testAddApplication() {
+	public void testRegisterCCA() {
 		//Create new application, cca, and user arraylist
 		applicationList = new ArrayList<>();
 		userList = new ArrayList<>();
@@ -276,6 +268,8 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.registerCCA(ccaList, userList, applicationList, userList.get(0).getUserID(), ccaList.get(0).getCcaID());
 		assertEquals("Test that arrayList has increased due to new application", 1, applicationList.size());
 	}
+	
+
 	
 	
 	@Test
