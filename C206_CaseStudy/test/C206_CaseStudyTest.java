@@ -218,7 +218,7 @@ public class C206_CaseStudyTest {
 	
 	@Test 
 	public void testSetUserId() {
-		userList = new ArrayList<>();
+		userList = new	 ArrayList<>();
 		
 		assertNotNull("Test that there is a valid arrayList to add to", userList);
 		
@@ -244,6 +244,14 @@ public class C206_CaseStudyTest {
 		String newRole = "teacher";
 		C206_CaseStudy.setUserRole(userList,0, newRole);
 		assertEquals("Test that new user role has been set",newRole,userList.get(0).getRole());
+	}
+	
+	@Test
+	public void testDisplayUsers() {
+		userList = new ArrayList<>();
+		
+		assertNotNull("Test that user list exists", userList);
+		
 	}
 	
 	@Test
