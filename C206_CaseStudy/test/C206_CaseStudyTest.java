@@ -247,6 +247,14 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
+	public void testDisplayUsers() {
+		userList = new ArrayList<>();
+		
+		assertNotNull("Test that user list exists", userList);
+		
+	}
+	
+	@Test
 	public void testAddApplication() {
 		//Create new application, cca, and user arraylist
 		applicationList = new ArrayList<>();
