@@ -105,7 +105,7 @@ public class C206_CaseStudyTest {
 		assertNotNull("Test arraylist is created", attendanceList);
 		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
 		attendanceList.add(att1);
-		C206_CaseStudy.editAttendance(attendanceList, 1, 1, "rejected");
+		C206_CaseStudy.addAttendance(attendanceList, 1, 1, "rejected");
 		assertSame("Test that status is update", "rejected", attendanceList.get(0).getStatus());
 	}
 	

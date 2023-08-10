@@ -773,7 +773,7 @@ public class C206_CaseStudy {
 					System.out.println("Invalid option");
 					Helper.line(100, "-");
 				} else {
-					editAttendance(attendanceList, ccaID, userID, status);
+					addAttendance(attendanceList, ccaID, userID, status);
 				}
 			} else if (option == 3) {
 
@@ -782,7 +782,7 @@ public class C206_CaseStudy {
 
 	}
 
-	public static void editAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID, String status) {
+	public static void addAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID, String status) {
 		for (int i = 0; i < attendanceList.size(); i++) {
 			if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
 				attendanceList.get(i).setStatus(status);
