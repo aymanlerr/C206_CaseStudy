@@ -179,6 +179,7 @@ public class C206_CaseStudy {
 				Helper.line(100, "-");
 			} else {
 				addUser(userList, newUserId, newUsername, newPassword, newRole);
+				displayUsers(userList);
 			}
 
 		} else if (choice == 2) {
@@ -208,6 +209,7 @@ public class C206_CaseStudy {
 				Helper.line(100, "-");
 			} else {
 				deleteUser(userList, userId, username);
+				displayUsers(userList);
 			}
 
 		} else if (choice == 3) {
@@ -244,15 +246,18 @@ public class C206_CaseStudy {
 						Helper.line(100, "-");
 					} else {
 						setUserId(userList, position, newUserId);
+						displayUsers(userList);
 					}
 				} else if (choice == 2) {
 					String newUsername = Helper.readString("Enter new Username > ");
 					setUsername(userList, position, newUsername);
+					displayUsers(userList);
 
 					// PASSWORD
 				} else if (choice == 3) {
 					String newPassword = Helper.readString("Enter new Password > ");
 					setPassword(userList, position, newPassword);
+					displayUsers(userList);
 
 					// ROLE
 				} else if(choice==4) {
@@ -277,6 +282,7 @@ public class C206_CaseStudy {
 						Helper.line(100, "-");
 					} else {
 						setUserRole(userList, position, newRole);
+						displayUsers(userList);
 					}
 				} else if(choice==5) {
 					displayCCA(ccaList);
@@ -292,6 +298,7 @@ public class C206_CaseStudy {
 						Helper.line(100, "-");
 					} else {
 						setUserCcaId(userList, position, newCcaId);
+						displayUsers(userList);
 					}
 
 				}else if(choice==6) {
@@ -375,6 +382,7 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 				} else {
 					deleteApplication(applicationList, attendanceList, ccaID, userID);
+					displayApplications(applicationList, user_ID, role);
 				}
 			} else if (choice == 2) {
 				// APPROVE OR REJECT APPLICATION
@@ -397,6 +405,7 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 				} else {
 					editApplication(applicationList, ccaList, userList, attendanceList, approve, ccaID, userID);
+					displayApplications(applicationList, user_ID, role);
 				}
 
 			} else if (choice == 3) {
@@ -455,6 +464,7 @@ public class C206_CaseStudy {
 				Helper.line(100, "-");
 			} else {
 				addCCA(ccaList, cca_ID, cca_name, desc, timeslot);
+				displayCCA(ccaList);
 			}
 		} else if (choice == 2) {
 			int cca_ID = Helper.readInt("Enter CCA ID to delete > ");
@@ -477,6 +487,7 @@ public class C206_CaseStudy {
 				Helper.line(100, "-");
 			} else {
 				deleteCCA(ccaList, cca_ID, cca_name);
+				displayCCA(ccaList);
 			}
 		} else if (choice == 3) {
 			int cca_ID = Helper.readInt("Enter CCA ID to edit > ");
@@ -515,10 +526,12 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 				} else {
 					setCcaName(ccaList, position, newCcaName);
+					displayCCA(ccaList);
 				}
 			} else if (edit == 2) {
 				String newDesc = Helper.readString("Enter new CCA description > ");
 				setCcaDescription(ccaList, position, newDesc);
+				displayCCA(ccaList);
 
 				// CCA TIMESLOT
 			} else if (edit == 3) {
@@ -535,6 +548,7 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 				} else {
 					setCcaTimeslot(ccaList, position, newCcaTimeslot);
+					displayCCA(ccaList);
 				}
 
 				// BACK
@@ -629,11 +643,11 @@ public class C206_CaseStudy {
 
 	// MENU
 	public static void menu(String role) {
-		Helper.line(100, "-");
-		System.out.println(String.format("%50s", "MENU"));
-		Helper.line(100, "-");
 		String output = "";
 		if (role.equalsIgnoreCase("student")) {
+			Helper.line(100, "-");
+			System.out.println(String.format("%50s", "STUDENT MENU"));
+			Helper.line(100, "-");
 			output += "1. Menu";
 			output += "\n2. View CCA";
 			output += "\n3. Register CCA";
@@ -641,6 +655,9 @@ public class C206_CaseStudy {
 			output += "\n8. Sign out";
 			output += "\n99. Quit program";
 		} else if (role.equalsIgnoreCase("teacher") || role.equalsIgnoreCase("advisor")) {
+			Helper.line(100, "-");
+			System.out.println(String.format("%50s", "TEACHER MENU"));
+			Helper.line(100, "-");
 			output += "1. Menu";
 			output += "\n2. View CCA";
 			output += "\n3. Maintain CCA";
@@ -651,6 +668,9 @@ public class C206_CaseStudy {
 			output += "\n8. Sign out";
 			output += "\n99. Quit program";
 		} else if (role.equalsIgnoreCase("admin")) {
+			Helper.line(100, "-");
+			System.out.println(String.format("%50s", "ADMIN MENU"));
+			Helper.line(100, "-");
 			output += "1. Menu";
 			output += "\n2. View CCA";
 			output += "\n3. Maintain CCA";
@@ -726,6 +746,7 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 				} else {
 					deleteAttendance(attendanceList, ccaID, userID);
+					checkAttendance(attendanceList, ccaList);
 				}
 				// SET ATTENDANCE
 			} else if (option == 2) {
@@ -774,6 +795,7 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 				} else {
 					addAttendance(attendanceList, ccaID, userID, status);
+					checkAttendance(attendanceList, ccaList);
 				}
 			} else if (option == 3) {
 
@@ -789,6 +811,7 @@ public class C206_CaseStudy {
 				Helper.line(100, "-");
 				System.out.println("Attendance succesfully updated");
 				Helper.line(100, "-");
+				
 			}
 		}
 	}
