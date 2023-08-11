@@ -1101,7 +1101,7 @@ public class C206_CaseStudy {
 		return false;
 	}
 
-	public static void editApplication(ArrayList<Application> applicationList, ArrayList<CCA> ccaList,
+	public static boolean editApplication(ArrayList<Application> applicationList, ArrayList<CCA> ccaList,
 			ArrayList<User> userList, ArrayList<Attendance> attendanceList, int approve, int ccaID, int userID) {
 		if (approve == 0) {
 			String cca_name = "";
@@ -1131,8 +1131,10 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 					System.out.println("Application succesfully approved");
 					Helper.line(100, "-");
+					return true;
 				}
 			}
+			return false;
 		} else if (approve == 1) {
 			for (int i = 0; i < applicationList.size(); i++) {
 				if (ccaID == applicationList.get(i).getCca_ID() && userID == applicationList.get(i).getUser_ID()) {
@@ -1140,12 +1142,15 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 					System.out.println("Application succesfully rejected");
 					Helper.line(100, "-");
+					return true;
 				}
 			}
+			return false;
 		} else {
 			Helper.line(100, "-");
 			System.out.println("Invalid option");
 			Helper.line(100, "-");
+			return false;
 		}
 	}
 
