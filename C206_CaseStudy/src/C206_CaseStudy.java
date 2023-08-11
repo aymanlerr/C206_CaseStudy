@@ -396,7 +396,7 @@ public class C206_CaseStudy {
 					System.out.println("Invalid User ID");
 					Helper.line(100, "-");
 				} else {
-					editApplication(applicationList, ccaList, userList, attendanceList, approve, ccaID, userID);
+					addApproval(applicationList, ccaList, userList, attendanceList, approve, ccaID, userID);
 				}
 
 			} else if (choice == 3) {
@@ -773,7 +773,7 @@ public class C206_CaseStudy {
 					System.out.println("Invalid option");
 					Helper.line(100, "-");
 				} else {
-					editAttendance(attendanceList, ccaID, userID, status);
+					addAttendance(attendanceList, ccaID, userID, status);
 				}
 			} else if (option == 3) {
 
@@ -782,26 +782,37 @@ public class C206_CaseStudy {
 
 	}
 
-	public static void editAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID, String status) {
+	public static boolean addAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID, String status) {
 		for (int i = 0; i < attendanceList.size(); i++) {
 			if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
 				attendanceList.get(i).setStatus(status);
 				Helper.line(100, "-");
 				System.out.println("Attendance succesfully updated");
 				Helper.line(100, "-");
+				return true;
 			}
 		}
+		Helper.line(100, "-");
+		System.out.println("Attendance not added");
+		Helper.line(100, "-");
+		return false;
 	}
 
-	public static void deleteAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID) {
+	public static boolean deleteAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID) {
 		for (int i = 0; i < attendanceList.size(); i++) {
 			if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
 				attendanceList.remove(i);
 				Helper.line(100, "-");
-				System.out.println("Application succesfully deleted");
+				System.out.println("Attendance succesfully deleted");
 				Helper.line(100, "-");
+				return true;
 			}
-		}
+		} 
+		Helper.line(100, "-");
+		System.out.println("Attendance not found");
+		Helper.line(100, "-");
+		return false;
+		
 	}
 
 	// DISPLAY ATTENDANCE
@@ -860,15 +871,21 @@ public class C206_CaseStudy {
 	}
 
 	public static boolean displayAttendance(ArrayList<Attendance> attendanceList, int ccaChoice) {
-		String output;
-		output = "";
-		for (int i = 0; i < attendanceList.size(); i++) {
-			if (ccaChoice == attendanceList.get(i).getCca_ID()) {
-				output += attendanceList.get(i).display();
+		if (attendanceList.size()==0) {
+			Helper.line(100, "-");
+			System.out.println("No attendance");
+			Helper.line(100, "-");
+			return false;
+		} else {
+			String output = "";
+			for (int i = 0; i < attendanceList.size(); i++) {
+				if (ccaChoice == attendanceList.get(i).getCca_ID()) {
+					output += attendanceList.get(i).display();
+				}
 			}
+			System.out.println(output);
+			return true;
 		}
-		System.out.println(output);
-		return true;
 	}
 
 	public static void displayUsers(ArrayList<User> userList) {
@@ -1001,29 +1018,38 @@ public class C206_CaseStudy {
 
 	// DISPLAY APPLICATION APPROVAL STATUS
 	public static boolean displayApplications(ArrayList<Application> applicationList, int user_ID, String role) {
-		Helper.line(100, "-");
-		System.out.println(String.format("%60s", "VIEW CCA APPROVAL STATUS"));
-		Helper.line(100, "-");
-		System.out.println(String.format("%-10s %-10s %-20s %-10s %-10s %-10s", "CCA ID", "CCA NAME", "TIMESLOT",
-				"USER_ID", "USERNAME", "STATUS"));
-		Helper.line(100, "-");
-		String output = "";
-		if (applicationList.size() != 0) {
-			if (role == "student") {
-				for (int i = 0; i < applicationList.size(); i++) {
-					if (user_ID == applicationList.get(i).getUser_ID()) {
+
+		if ((role.equalsIgnoreCase("student")) || (role.equalsIgnoreCase("teacher"))
+				|| (role.equalsIgnoreCase("admin"))) {
+			Helper.line(100, "-");
+			System.out.println(String.format("%60s", "VIEW CCA APPROVAL STATUS"));
+			Helper.line(100, "-");
+			System.out.println(String.format("%-10s %-10s %-20s %-10s %-10s %-10s", "CCA ID", "CCA NAME", "TIMESLOT",
+					"USER_ID", "USERNAME", "STATUS"));
+			Helper.line(100, "-");
+			String output = "";
+			if (applicationList.size() != 0) {
+				if (role == "student") {
+					for (int i = 0; i < applicationList.size(); i++) {
+						if (user_ID == applicationList.get(i).getUser_ID()) {
+							output += applicationList.get(i).display();
+						}
+					}
+				} else {
+					for (int i = 0; i < applicationList.size(); i++) {
 						output += applicationList.get(i).display();
 					}
 				}
+				System.out.println(output);
+				return true;
 			} else {
-				for (int i = 0; i < applicationList.size(); i++) {
-					output += applicationList.get(i).display();
-				}
+				System.out.println("There are no applications");
+				return false;
 			}
-			System.out.println(output);
-			return true;
 		} else {
-			System.out.println("There are no applications");
+			Helper.line(100, "-");
+			System.out.println("Invalid role");
+			Helper.line(100, "-");
 			return false;
 		}
 	}
@@ -1038,7 +1064,7 @@ public class C206_CaseStudy {
 		return false;
 	}
 
-	public static void editApplication(ArrayList<Application> applicationList, ArrayList<CCA> ccaList,
+	public static boolean addApproval(ArrayList<Application> applicationList, ArrayList<CCA> ccaList,
 			ArrayList<User> userList, ArrayList<Attendance> attendanceList, int approve, int ccaID, int userID) {
 		if (approve == 0) {
 			String cca_name = "";
@@ -1068,8 +1094,10 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 					System.out.println("Application succesfully approved");
 					Helper.line(100, "-");
+					return true;
 				}
 			}
+			return false;
 		} else if (approve == 1) {
 			for (int i = 0; i < applicationList.size(); i++) {
 				if (ccaID == applicationList.get(i).getCca_ID() && userID == applicationList.get(i).getUser_ID()) {
@@ -1077,12 +1105,15 @@ public class C206_CaseStudy {
 					Helper.line(100, "-");
 					System.out.println("Application succesfully rejected");
 					Helper.line(100, "-");
+					return true;
 				}
 			}
+			return false;
 		} else {
 			Helper.line(100, "-");
 			System.out.println("Invalid option");
 			Helper.line(100, "-");
+			return false;
 		}
 	}
 

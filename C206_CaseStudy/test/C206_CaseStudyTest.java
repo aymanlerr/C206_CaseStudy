@@ -52,8 +52,6 @@ public class C206_CaseStudyTest {
 		app1 = (new Application(1, "Soccer", "Wednesday: 4pm-6pm", 1, "Aiman", ""));
 		app2 = (new Application(2, "Badminton", "Wednesday: 4pm-6pm", 2, "Aldusto", ""));
 		
-		att1 = (new Attendance(1, "Soccer", "Monday: 4pm-5pm", 1, "Aiman", ""));
-		
 	}
 
 	
@@ -101,38 +99,50 @@ public class C206_CaseStudyTest {
 	@Test
 	public void testDeleteAttendance() {
 		attendanceList = new ArrayList<>();
+		// normal delete
 		assertNotNull("Test arraylist is created", attendanceList);
 		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
 		attendanceList.add(att1);
 		assertEquals("Test that arraylist size is 1", 1, attendanceList.size());
 		C206_CaseStudy.deleteAttendance(attendanceList, 1, 1);
 		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
-		
+		// boundary delete when array list is 0
+		assertFalse("Test that arraylist size will not decrease when at 0",C206_CaseStudy.deleteAttendance(attendanceList, 1, 1));
+		// error delete with wrong information
+		attendanceList.add(att1);
+		assertFalse("Test that arraylist size will not be deleted with wrong info",C206_CaseStudy.deleteAttendance(attendanceList, 2, 1));
 	}
 	
 	@Test
 	public void testAddAttendance() {
 		attendanceList = new ArrayList<>();
+		// normal add
 		assertNotNull("Test arraylist is created", attendanceList);
 		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
 		attendanceList.add(att1);
 		C206_CaseStudy.addAttendance(attendanceList, 1, 1, "rejected");
-		assertSame("Test that status is update", "rejected", attendanceList.get(0).getStatus());
+		assertSame("Test that status is updated", "rejected", attendanceList.get(0).getStatus());
+		// error add with wrong information
+		assertFalse("Test that nothing will not be added with wrong details", C206_CaseStudy.addAttendance(attendanceList, 2, 1, "rejected"));
 	}
 	
 	@Test
 	public void testDisplayAttendance() {
 		attendanceList = new ArrayList<>();
-		ccaList = new ArrayList<>();
-		
-		assertNotNull("Test arraylist is created", attendanceList);
-		assertNotNull("Test arraylist is created", ccaList);
-		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
-		assertEquals("Test that arraylist size is 0", 0, ccaList.size());
+		// normal display
+		assertNotNull("Test attendance list is created", attendanceList);
+		assertEquals("Test that attendance list size is 0", 0, attendanceList.size());
 		attendanceList.add(att1);
-		ccaList.add(cca1);
+		assertEquals("Test that attendance list size is 1", 1, attendanceList.size());
 		Boolean actual = C206_CaseStudy.displayAttendance(attendanceList, 1);
 		assertTrue("Test that attendance is displayed", actual);
+		String output = String.format("%-10d %-10s %-25s %-10d %-10s %-10s", 1, "Soccer", "Monday: 4pm-9pm", 1, "Aiman","Pending" );
+		assertEquals("Check that the display format is correct", output, attendanceList.get(0).display());
+		// error - display attendance when there is no attendance
+		C206_CaseStudy.deleteAttendance(attendanceList, 1, 1);
+		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
+		Boolean error = C206_CaseStudy.displayAttendance(attendanceList, 1);
+		assertFalse("Test that attendance is displayed", error);
 	}
 	
 	@Test
@@ -298,7 +308,6 @@ public class C206_CaseStudyTest {
 	public void testDeleteApplication() {
 	    // New application and attendance arraylists
 	    ArrayList<Application> applicationList = new ArrayList<>();
-	    
 	    ArrayList<Attendance> attendanceList = new ArrayList<>();
 
 	    // Test for empty application and attendance arraylist
@@ -390,28 +399,31 @@ public class C206_CaseStudyTest {
 	public void testAddApproval() {
 		//new application arraylist
 		applicationList = new ArrayList<>();
+		ccaList = new ArrayList<>();
+		userList = new ArrayList<>();
+		attendanceList = new ArrayList<>();
 		
 		//test for existing application arraylist
 		//test for empty arraylist
 		assertNotNull("Test if there is any application arraylist to delete from", applicationList);
 		assertEquals("Test that arraylist is empty", 0, applicationList.size());
 		
-		//add application to maintain
+		//add application, cca, user, attendance to maintain
 		applicationList.add(app1);
-		applicationList.add(app2);
+		ccaList.add(cca1);
+		userList.add(user1);
+		attendanceList.add(att1);
 		
-		//test that applicationList is 1 (contains application)
-		//test that changes made to application is reflected
-		String newStatus = "Approval";
-		applicationList.get(0).setStatus(newStatus);
-		assertEquals("Test that changes that are made to an application’s status is reflected in the database accurately", applicationList.get(0).getStatus(), newStatus);
+		//add approval status "approved" for studentId = 1, ccaId = 1
+		C206_CaseStudy.addApproval(applicationList, ccaList, userList, attendanceList, 0, 1, 1);
 		
-		//test adding approval to correct application
-		String newStatusReject = "Rejection";
-		applicationList.get(1).setStatus(newStatusReject);
-		assertNotEquals("Test that correct changes are made to the correct application", applicationList.get(1).getStatus(), newStatus);
+		//check that approval status has been added (normal)
+		assertEquals("Test that approval status has been added", applicationList.get(0).getStatus(), "Approved");
 		
-		applicationList.get(2).setStatus(newStatus);
+		//check that approval status cannot be added to non-existing list (error)
+		boolean noApproval = C206_CaseStudy.addApproval(applicationList, ccaList, userList, attendanceList, 0, 2, 1);
+		assertFalse("Test that approval status can not be added for a non-existing application", noApproval);
+				
 	}
 	
 	
