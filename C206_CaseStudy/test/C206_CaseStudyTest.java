@@ -50,8 +50,6 @@ public class C206_CaseStudyTest {
 		
 		app1 = (new Application(1, "Soccer", "Wednesday: 4pm-6pm", 1, "gh", "gh"));
 		
-		att1 = (new Attendance(1, "Soccer", "Monday: 4pm-5pm", 1, "Aiman", ""));
-		
 	}
 
 	
@@ -99,38 +97,50 @@ public class C206_CaseStudyTest {
 	@Test
 	public void testDeleteAttendance() {
 		attendanceList = new ArrayList<>();
+		// normal delete
 		assertNotNull("Test arraylist is created", attendanceList);
 		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
 		attendanceList.add(att1);
 		assertEquals("Test that arraylist size is 1", 1, attendanceList.size());
 		C206_CaseStudy.deleteAttendance(attendanceList, 1, 1);
 		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
-		
+		// boundary delete when array list is 0
+		assertFalse("Test that arraylist size will not decrease when at 0",C206_CaseStudy.deleteAttendance(attendanceList, 1, 1));
+		// error delete with wrong information
+		attendanceList.add(att1);
+		assertFalse("Test that arraylist size will not be deleted with wrong info",C206_CaseStudy.deleteAttendance(attendanceList, 2, 1));
 	}
 	
 	@Test
 	public void testAddAttendance() {
 		attendanceList = new ArrayList<>();
+		// normal add
 		assertNotNull("Test arraylist is created", attendanceList);
 		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
 		attendanceList.add(att1);
 		C206_CaseStudy.addAttendance(attendanceList, 1, 1, "rejected");
-		assertSame("Test that status is update", "rejected", attendanceList.get(0).getStatus());
+		assertSame("Test that status is updated", "rejected", attendanceList.get(0).getStatus());
+		// error add with wrong information
+		assertFalse("Test that nothing will not be added with wrong details", C206_CaseStudy.addAttendance(attendanceList, 2, 1, "rejected"));
 	}
 	
 	@Test
 	public void testDisplayAttendance() {
 		attendanceList = new ArrayList<>();
-		ccaList = new ArrayList<>();
-		
-		assertNotNull("Test arraylist is created", attendanceList);
-		assertNotNull("Test arraylist is created", ccaList);
-		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
-		assertEquals("Test that arraylist size is 0", 0, ccaList.size());
+		// normal display
+		assertNotNull("Test attendance list is created", attendanceList);
+		assertEquals("Test that attendance list size is 0", 0, attendanceList.size());
 		attendanceList.add(att1);
-		ccaList.add(cca1);
+		assertEquals("Test that attendance list size is 1", 1, attendanceList.size());
 		Boolean actual = C206_CaseStudy.displayAttendance(attendanceList, 1);
 		assertTrue("Test that attendance is displayed", actual);
+		String output = String.format("%-10d %-10s %-25s %-10d %-10s %-10s", 1, "Soccer", "Monday: 4pm-9pm", 1, "Aiman","Pending" );
+		assertEquals("Check that the display format is correct", output, attendanceList.get(0).display());
+		// error - display attendance when there is no attendance
+		C206_CaseStudy.deleteAttendance(attendanceList, 1, 1);
+		assertEquals("Test that arraylist size is 0", 0, attendanceList.size());
+		Boolean error = C206_CaseStudy.displayAttendance(attendanceList, 1);
+		assertFalse("Test that attendance is displayed", error);
 	}
 	
 	@Test

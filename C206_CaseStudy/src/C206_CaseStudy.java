@@ -805,27 +805,38 @@ public class C206_CaseStudy {
 
 	}
 
-	public static void addAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID, String status) {
+	public static boolean addAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID, String status) {
 		for (int i = 0; i < attendanceList.size(); i++) {
 			if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
 				attendanceList.get(i).setStatus(status);
 				Helper.line(100, "-");
 				System.out.println("Attendance succesfully updated");
 				Helper.line(100, "-");
+				return true;
 
 			}
 		}
+		Helper.line(100, "-");
+		System.out.println("Attendance not added");
+		Helper.line(100, "-");
+		return false;
 	}
 
-	public static void deleteAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID) {
+	public static boolean deleteAttendance(ArrayList<Attendance> attendanceList, int ccaID, int userID) {
 		for (int i = 0; i < attendanceList.size(); i++) {
 			if (ccaID == attendanceList.get(i).getCca_ID() && userID == attendanceList.get(i).getUser_ID()) {
 				attendanceList.remove(i);
 				Helper.line(100, "-");
-				System.out.println("Application succesfully deleted");
+				System.out.println("Attendance succesfully deleted");
 				Helper.line(100, "-");
+				return true;
 			}
-		}
+		} 
+		Helper.line(100, "-");
+		System.out.println("Attendance not found");
+		Helper.line(100, "-");
+		return false;
+		
 	}
 
 	// DISPLAY ATTENDANCE
@@ -884,15 +895,21 @@ public class C206_CaseStudy {
 	}
 
 	public static boolean displayAttendance(ArrayList<Attendance> attendanceList, int ccaChoice) {
-		String output;
-		output = "";
-		for (int i = 0; i < attendanceList.size(); i++) {
-			if (ccaChoice == attendanceList.get(i).getCca_ID()) {
-				output += attendanceList.get(i).display();
+		if (attendanceList.size()==0) {
+			Helper.line(100, "-");
+			System.out.println("No attendance");
+			Helper.line(100, "-");
+			return false;
+		} else {
+			String output = "";
+			for (int i = 0; i < attendanceList.size(); i++) {
+				if (ccaChoice == attendanceList.get(i).getCca_ID()) {
+					output += attendanceList.get(i).display();
+				}
 			}
+			System.out.println(output);
+			return true;
 		}
-		System.out.println(output);
-		return true;
 	}
 
 	public static void displayUsers(ArrayList<User> userList) {
