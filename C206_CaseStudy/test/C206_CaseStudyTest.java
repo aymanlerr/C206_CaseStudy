@@ -19,6 +19,7 @@ public class C206_CaseStudyTest {
 	private CCA testaddcca;
 	
 	private Application app1;
+	private Application app2;
 	
 	private Attendance att1;
 
@@ -48,7 +49,8 @@ public class C206_CaseStudyTest {
 		cca3 = (new CCA(3, "Tennis", "Have fun playing tennis in this CCA!", "Friday: 4pm-6pm"));
 		testaddcca = (new CCA(4, "Basketball", "Have fun playing basketball in this CCA!", "Friday: 4pm-6pm"));
 		
-		app1 = (new Application(1, "Soccer", "Wednesday: 4pm-6pm", 1, "gh", "gh"));
+		app1 = (new Application(1, "Soccer", "Wednesday: 4pm-6pm", 1, "Aiman", ""));
+		app2 = (new Application(2, "Badminton", "Wednesday: 4pm-6pm", 2, "Aldusto", ""));
 		
 		att1 = (new Attendance(1, "Soccer", "Monday: 4pm-5pm", 1, "Aiman", ""));
 		
@@ -396,12 +398,20 @@ public class C206_CaseStudyTest {
 		
 		//add application to maintain
 		applicationList.add(app1);
+		applicationList.add(app2);
 		
 		//test that applicationList is 1 (contains application)
 		//test that changes made to application is reflected
 		String newStatus = "Approval";
 		applicationList.get(0).setStatus(newStatus);
 		assertEquals("Test that changes that are made to an application’s status is reflected in the database accurately", applicationList.get(0).getStatus(), newStatus);
+		
+		//test adding approval to correct application
+		String newStatusReject = "Rejection";
+		applicationList.get(1).setStatus(newStatusReject);
+		assertNotEquals("Test that correct changes are made to the correct application", applicationList.get(1).getStatus(), newStatus);
+		
+		applicationList.get(2).setStatus(newStatus);
 	}
 	
 	
