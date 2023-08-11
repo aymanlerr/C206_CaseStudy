@@ -970,17 +970,30 @@ public class C206_CaseStudy {
 				timeslot = ccaList.get(i).getTimeslot();
 			}
 		}
-
-		// ADD INTO APPLICATION LIST
-		for (int i = 0; i < userList.size(); i++) {
-			if (user_ID == userList.get(i).getUserID()) {
-				applicationList.add(new Application(cca_ID, cca_name, timeslot, userList.get(i).getUserID(),
-						userList.get(i).getName(), ""));
-				Helper.line(100, "-");
-				System.out.println("You have succesfully registered for this cca");
-				Helper.line(100, "-");
+		Boolean add = true;
+		for (int i = 0; i < applicationList.size(); i++) {
+			if (cca_ID == applicationList.get(i).getCca_ID() && user_ID == applicationList.get(i).getUser_ID()) {
+				add = false;
 			}
 		}
+
+		// ADD INTO APPLICATION LIST
+		if (add == true) {
+			for (int i = 0; i < userList.size(); i++) {
+				if (user_ID == userList.get(i).getUserID()) {
+					applicationList.add(new Application(cca_ID, cca_name, timeslot, userList.get(i).getUserID(),
+							userList.get(i).getName(), ""));
+					Helper.line(100, "-");
+					System.out.println("You have succesfully registered for this cca");
+					Helper.line(100, "-");
+				}
+			}
+		} else {
+			Helper.line(100, "-");
+			System.out.println("You have already applied for this CCA");
+			Helper.line(100, "-");
+		}
+
 
 	}
 

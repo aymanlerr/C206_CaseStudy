@@ -294,13 +294,12 @@ public class C206_CaseStudyTest {
 	    assertEquals("Test that arrayList has increased due to new application", 1, applicationList.size());
 
 	    // Test adding a duplicate application (BOUNDARY)
-	    int initialSize = applicationList.size();
 	    C206_CaseStudy.registerCCA(ccaList, userList, applicationList, userList.get(0).getUserID(), 1);
-	    assertEquals("Test that arrayList remains unchanged due to duplicate application", initialSize, applicationList.size());
+	    assertEquals("Test that arrayList remains unchanged due to duplicate application", 1, applicationList.size());
 
 	    // Test adding application with invalid user ID (ERROR)
 	    C206_CaseStudy.registerCCA(ccaList, userList, applicationList, 999, ccaList.get(0).getCcaID());
-	    assertEquals("Test that arrayList remains unchanged due to invalid user ID", initialSize, applicationList.size());
+	    assertEquals("Test that arrayList remains unchanged due to invalid user ID", 1, applicationList.size());
 
 	   
 	}
