@@ -306,7 +306,6 @@ public class C206_CaseStudyTest {
 	public void testDeleteApplication() {
 	    // New application and attendance arraylists
 	    ArrayList<Application> applicationList = new ArrayList<>();
-	    
 	    ArrayList<Attendance> attendanceList = new ArrayList<>();
 
 	    // Test for empty application and attendance arraylist

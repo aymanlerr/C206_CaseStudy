@@ -1060,7 +1060,6 @@ public class C206_CaseStudy {
 				|| (role.equalsIgnoreCase("admin"))) {
 			Helper.line(100, "-");
 			System.out.println(String.format("%60s", "VIEW CCA APPROVAL STATUS"));
-			
 			Helper.line(100, "-");
 			System.out.println(String.format("%-10s %-10s %-20s %-10s %-10s %-10s", "CCA ID", "CCA NAME", "TIMESLOT",
 					"USER_ID", "USERNAME", "STATUS"));
