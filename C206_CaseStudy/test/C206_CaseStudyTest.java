@@ -63,28 +63,37 @@ public class C206_CaseStudyTest {
 	
 	@Test
 	public void testViewApplications() {
-		//Create new application and user arraylist
-		applicationList = new ArrayList<>();
-		userList = new ArrayList<>();
-		
-		//Test that arraylists exist and are empty
-		//Add application and user into their new respective arraylist
-		//Test that application and user has now been added into their arraylists
-		assertNotNull("Test if there is a valid application arraylist to display", applicationList);
-		assertNotNull("Test if there is a valid application arraylist to display", userList);
-		assertEquals("Test that the application arraylist is empty", 0, applicationList.size());
-		assertEquals("Test that the application arraylist is empty", 0, userList.size());
-		applicationList.add(app1);
-		//adding teacher user and admin user 
-		userList.add(user2); //teacher
-		userList.add(user3); //admin
-		assertEquals("Test that arrayList has increased due to new application", 1, applicationList.size());
-		assertEquals("Test that arrayList has increased due to new users", 2, userList.size());
-		
-		//Test that teacher user can view all applications
-		boolean output = C206_CaseStudy.displayApplications(applicationList, userList.get(0).getUserID(), userList.get(0).getRole());
-		assertTrue("Test that the output shows all applications", output);
+	    // Create new application and user arraylists
+	    ArrayList<Application> applicationList = new ArrayList<>();
+	    ArrayList<User> userList = new ArrayList<>();
 
+	    // Test that arraylists exist and are empty
+	    assertNotNull("Test if there is a valid application arraylist to display", applicationList);
+	    assertNotNull("Test if there is a valid user arraylist to display", userList);
+	    assertEquals("Test that the application arraylist is empty", 0, applicationList.size());
+	    assertEquals("Test that the user arraylist is empty", 0, userList.size());
+
+	    // Adding application and users to their respective arraylists
+	    applicationList.add(app1);
+	    userList.add(user2); // teacher
+	    userList.add(user3); // admin
+
+	    assertEquals("Test that arrayList has increased due to new application", 1, applicationList.size());
+	    assertEquals("Test that arrayList has increased due to new users", 2, userList.size());
+
+	    // Test that teacher user can view all applications
+	    boolean output = C206_CaseStudy.displayApplications(applicationList, userList.get(0).getUserID(), userList.get(0).getRole());
+	    assertTrue("Test that the output shows all applications", output);
+
+	    // Test when there are no applications in arrayList (BOUNDARY)
+	    applicationList.clear();
+	    boolean noOutput = C206_CaseStudy.displayApplications(applicationList, userList.get(0).getUserID(), userList.get(0).getRole());
+	    assertFalse("Test that the output shows no applications", noOutput);
+
+	   
+	    // Test when role is invalid (ERROR)
+	    boolean invalidRoleOutput = C206_CaseStudy.displayApplications(applicationList, userList.get(0).getUserID(), "invalidRole");
+	    assertFalse("Test that the output shows no applications due to invalid role", invalidRoleOutput);
 	}
 	
 	@Test
@@ -248,25 +257,33 @@ public class C206_CaseStudyTest {
 	
 	@Test
 	public void testRegisterCCA() {
-		//Create new application, cca, and user arraylist
-		applicationList = new ArrayList<>();
-		userList = new ArrayList<>();
-		ccaList = new ArrayList<>();
-		
-		//Adding a user and cca to their respective arrayLists, and declaring user_ID and cca_ID variables
-		userList.add(user1);
-		ccaList.add(cca1);
-		
-		
-		//Test that there is existing application arraylist to add to
-		//Test that the application arraylist is empty
-		assertNotNull("Test if there is valid application arrayList to add to", applicationList);
-		assertEquals("Test that the user arrayList is empty", 0, applicationList.size());
-		
-		//Test adding of application to arraylist
-		//Test that new application has been added to application arraylist
-		C206_CaseStudy.registerCCA(ccaList, userList, applicationList, userList.get(0).getUserID(), ccaList.get(0).getCcaID());
-		assertEquals("Test that arrayList has increased due to new application", 1, applicationList.size());
+	    // Create new application, cca, and user arraylists
+	    ArrayList<Application> applicationList = new ArrayList<>();
+	    ArrayList<User> userList = new ArrayList<>();
+	    ArrayList<CCA> ccaList = new ArrayList<>();
+
+	    // Adding user and cca into arraylists
+	    userList.add(user1);
+	    ccaList.add(cca1);
+	    
+	    // Test that there is an existing application arraylist to add to
+	    assertNotNull("Test if there is a valid application arrayList to add to", applicationList);
+	    assertEquals("Test that the application arrayList is empty", 0, applicationList.size());
+	    
+	    // Test that a new application has been added to the application arraylist (NORMAL)
+	    C206_CaseStudy.registerCCA(ccaList, userList, applicationList, userList.get(0).getUserID(), ccaList.get(0).getCcaID());
+	    assertEquals("Test that arrayList has increased due to new application", 1, applicationList.size());
+
+	    // Test adding a duplicate application (BOUNDARY)
+	    int initialSize = applicationList.size();
+	    C206_CaseStudy.registerCCA(ccaList, userList, applicationList, userList.get(0).getUserID(), 1);
+	    assertEquals("Test that arrayList remains unchanged due to duplicate application", initialSize, applicationList.size());
+
+	    // Test adding application with invalid user ID (ERROR)
+	    C206_CaseStudy.registerCCA(ccaList, userList, applicationList, 999, ccaList.get(0).getCcaID());
+	    assertEquals("Test that arrayList remains unchanged due to invalid user ID", initialSize, applicationList.size());
+
+	   
 	}
 	
 
@@ -274,26 +291,41 @@ public class C206_CaseStudyTest {
 	
 	@Test
 	public void testDeleteApplication() {
-		//new application arraylist
-		applicationList = new ArrayList<>();
-		attendanceList = new ArrayList<>();
-		
-		//test for empty arraylist
-		assertNotNull("Test if there is any application arraylist to delete from", applicationList);
-		assertEquals("Test that arraylist is empty", 0, applicationList.size());
-		
-		//add item in arraylist
-		applicationList.add(app1);
-		attendanceList.add(att1);
-		assertEquals("Test that arraylist size is 1", 1, applicationList.size());
-		assertSame("Test that application is added", app1, applicationList.get(0));
-		
-		//remove item in arraylist
-		C206_CaseStudy.deleteApplication(applicationList, attendanceList, 1, 1);
-		assertEquals("Test that arraylist size is 0", 0, applicationList.size());
-		
-	}
+	    // New application and attendance arraylists
+	    ArrayList<Application> applicationList = new ArrayList<>();
+	    ArrayList<Attendance> attendanceList = new ArrayList<>();
 
+	    // Test for empty application and attendance arraylist
+	    assertNotNull("Test if there is any application arrayList to delete from", applicationList);
+	    assertEquals("Test that application arrayList is empty", 0, applicationList.size());
+	    assertNotNull("Test if there is any attendance arrayList to delete from", attendanceList);
+	    assertEquals("Test that attendance arrayList is empty", 0, attendanceList.size());
+
+	    // Add application and attendance to the lists
+	    applicationList.add(app1);
+	    attendanceList.add(att1);
+	    assertEquals("Test that application arrayList size is 1", 1, applicationList.size());
+	    assertEquals("Test that attendance arrayList size is 1", 1, attendanceList.size());
+
+	    // Test deleting with invalid application and user IDs (ERROR)
+	    int initialAppSize = applicationList.size();
+	    int initialAttSize = attendanceList.size();
+	    C206_CaseStudy.deleteApplication(applicationList, attendanceList, 2, 2);
+	    assertEquals("Test that application arrayList size is not changed", initialAppSize, applicationList.size());
+	    assertEquals("Test that attendance arrayList size is not changed", initialAttSize, attendanceList.size());
+
+
+	    // Test deleting valid application from the list (NORMAL)
+	    C206_CaseStudy.deleteApplication(applicationList, attendanceList, 1, 1);
+	    assertEquals("Test that application arrayList size is 0", 0, applicationList.size());
+	    assertEquals("Test that attendance arrayList size is 0", 0, attendanceList.size());
+	    
+	    // Test deleting application from an empty list (BOUNDARY)
+	    C206_CaseStudy.deleteApplication(applicationList, attendanceList, 1, 1);
+	    assertEquals("Test that application arrayList size remains as 0", 0, applicationList.size());
+	    assertEquals("Test that attendance arrayList size remains as 0", 0, attendanceList.size());
+	}
+	
 	@Test
 	public void testDisplayCCA() {
 		//view All CCA
