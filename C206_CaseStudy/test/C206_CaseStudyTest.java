@@ -158,6 +158,9 @@ public class C206_CaseStudyTest {
 		// Test Add user
 		C206_CaseStudy.addUser(userList, userId, username, password, role);
 		assertEquals("Test that arrayList increases size to 1", 1, userList.size());
+		//add existing user
+		C206_CaseStudy.addUser(userList, userId, username, password, role);
+		assertNotEquals("test that unable to add existing user", 2, "userList.size()");
 	}
 	
 	@Test
