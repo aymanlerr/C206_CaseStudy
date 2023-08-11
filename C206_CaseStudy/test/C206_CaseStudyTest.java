@@ -181,20 +181,21 @@ public class C206_CaseStudyTest {
 	
 	@Test
 	public void testDeleteUser() {
-		int userId = 1;
-		String username = "Aiman";
-		String password = "1";
-		String role = "student";
 		userList = new ArrayList<>();
 		
 		assertNotNull("Test that there is a valid arryaList to add to", userList);
 		
 		//add user
-		C206_CaseStudy.addUser(userList, userId, username, password, role);
+		userList.add(user1);
 		assertEquals("Test that user arrayList increases size to 1", 1, userList.size());
 		//delete user
-		C206_CaseStudy.deleteUser(userList, userId, username);
+		C206_CaseStudy.deleteUser(userList, 1, "Aiman");
 		assertEquals("Test that user arrayList decreases size to 0", 0, userList.size());
+		// delete non-existing user
+		userList.add(user1);
+		assertEquals("Test that user arrayList increases size to 1", 1, userList.size());
+		C206_CaseStudy.deleteUser(userList,2,"Jaymi");
+		assertEquals("Test that nothing has been deleted from the list",1,userList.size());
 	}
 	
 	@Test
