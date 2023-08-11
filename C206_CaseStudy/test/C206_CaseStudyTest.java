@@ -148,12 +148,16 @@ public class C206_CaseStudyTest {
 	@Test
 	public void testLogin() {
 		userList = new ArrayList<>();
+		// normal login
 		assertNotNull("Test arraylist is created", userList);
 		assertEquals("Test that arraylist size is 0", 0, userList.size());
 		userList.add(user1);
 		assertEquals("Test that arraylist size is 1", 1, userList.size());
 		Boolean actual = C206_CaseStudy.login(userList, 1, "1");
 		assertTrue("Test login", actual);
+		// error login
+		Boolean error = C206_CaseStudy.login(userList, 2, "1");
+		assertFalse("Test login", error);
 	}
 	
 	@Test
